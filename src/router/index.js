@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { HomeView, AboutView, LoginView, RegisterView, UserProfileView, UsersView } from '../views/'
+import { HomeView, AboutView, LoginView, RegisterView, UserProfileView, UsersView, AddNewPostView, DetailPostView } from '../views/'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -33,6 +33,21 @@ const router = createRouter({
       path: '/users',
       name: 'users',
       component: UsersView
+    },
+    {
+      path: '/add',
+      name: 'add',
+      component: AddNewPostView
+    },
+    {
+      path: '/chat',
+      name: 'chat',
+      component: import('../views/Chat.vue')
+    },
+    {
+      path: '/detail/:id',
+      name: 'detail',
+      component: DetailPostView
     }
   ]
 })

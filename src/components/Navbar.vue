@@ -8,14 +8,27 @@
 
                 <ul class="navigation">
                     <li>
-                        <RouterLink to="/">Home</RouterLink>
+                        <RouterLink to="/">
+                            <i class="fa-solid fa-house"></i>
+                        </RouterLink>
                     </li>
-                    <li>
-                        <RouterLink to="/about">About</RouterLink>
-                    </li>
-                    <li v-if="isLoggedIn">
-                        <RouterLink to="/users">Users</RouterLink>
-                    </li>
+                    <template v-if="isLoggedIn">
+                        <li>
+                            <RouterLink to="/users">
+                                <i class="fa-solid fa-user"></i>
+                            </RouterLink>
+                        </li>
+                        <li>
+                            <RouterLink to="/add">
+                                <i class="fa-solid fa-square-plus"></i>
+                            </RouterLink>
+                        </li>
+                        <li>
+                            <RouterLink to="/chat">
+                                <i class="fa-brands fa-rocketchat"></i>
+                            </RouterLink>
+                        </li>
+                    </template>
                 </ul>
 
                 <div class="text-end">
@@ -47,18 +60,6 @@ import { RouterLink } from "vue-router"
 export default {
     data() {
         return {
-            items: [
-                {
-                    txt: 'Home',
-                    id: 1,
-                    active: false
-                },
-                {
-                    txt: 'About',
-                    id: 2,
-                    active: false
-                }
-            ],
             active: false
         }
     },
@@ -110,8 +111,9 @@ body {
 }
 
 .navigation {
-    width: 300px;
+    width: 100px;
     height: 100vh;
+    padding: 0;
     position: fixed;
     left: 0;
     display: flex;
@@ -123,12 +125,16 @@ body {
 }
 
 .navigation li {
-    width: 100%;
+    text-align: center;
     list-style: none;
     border-radius: 5px;
-    padding: 8px 15px;
+    padding: 8px 0px;
     cursor: pointer;
     user-select: none;
+}
+
+.navigation li a {
+    font-size: 25px;
 }
 
 .drop-menu {

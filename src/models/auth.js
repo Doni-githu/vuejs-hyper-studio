@@ -4,7 +4,7 @@ const state = {
     user: null,
     error: null,
     isLoggedIn: false,
-    profile: null
+    profile: null,
 }
 
 const mutations = {
@@ -56,7 +56,7 @@ const mutations = {
         state.error = payload
         state.isLoading = false
     },
-    ClearProfile(state){
+    ClearProfile(state) {
         state.profile = null
     }
 }
@@ -109,7 +109,7 @@ const actions = {
                     context.commit('FailurRegister', err.response)
                 })
         })
-    }
+    },
 }
 
 export default {

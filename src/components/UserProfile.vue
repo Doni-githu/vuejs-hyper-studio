@@ -10,43 +10,41 @@
                     <p>{{ profile?.email }}</p>
                 </div>
             </div>
-            <div class="left">
-                <div v-if="user?._id === profile?._id" class="btn-group">
-                    <button type="button" class="btn dropdown-toggle" @click="change">
-                        <i class="fa-solid fa-bars"></i>
-                    </button>
-                    <ul v-if="action" class="drop-menu">
-                        <li><a class="dropdown-item" href="#">Add Photo or Video</a></li>
-                        <li><a class="dropdown-item" href="#">Chat</a></li>
-                    </ul>
-                </div>
-            </div>
         </div>
         <div class="container">
             <div class="filter">
-                <button v-for="btn in  btns" :key="btn.id" @click="toogle(btn.id)"
-                    :class="[btn.active ? 'active' : null]">{{
-                        btn.txt }}</button>
+                <p>Photos and Videos</p>
             </div>
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-                <div class="col">
+                <div class="col" v-for="post in posts" :key="post._id">
                     <div class="card shadow-sm">
-                        <svg class="bd-placeholder-img card-img-top" width="100%" height="225"
-                            xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail"
-                            preserveAspectRatio="xMidYMid slice" focusable="false">
-                            <title>Placeholder</title>
-                            <rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef"
-                                dy=".3em">Thumbnail</text>
-                        </svg>
+                        <div class="user" @click="goToProfile(post.user._id)">
+                            <div class="avatar">
+                                <img :src="post.user.src">
+                            </div>
+                            <div class="main">
+                                <p>{{ post.user.username }}</p>
+                            </div>
+                        </div>
+                        <template v-if="post.type === 'img'">
+                            <img :src="post.src" class="post_img">
+                        </template>
+                        <template v-else>
+                            <video controls>
+                                <source :src="post.src">
+                            </video>
+                        </template>
                         <div class="card-body">
-                            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to
-                                additional content. This content is a little bit longer.</p>
+                            <p class="card-title">{{ post.title }}</p>
+                            <p class="card-body" style="word-break: break-all;">{{ post.body }}</p>
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="btn-group">
-                                    <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                                    <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary text-secondary btns"
+                                        @click="gotoDetail(post._id)">
+                                        <span>Detail</span>
+                                    </button>
                                 </div>
-                                <small class="text-body-secondary">9 mins</small>
+                                <small class="text-body-secondary">{{ momentJS(post.createdAt) }}</small>
                             </div>
                         </div>
                     </div>
@@ -57,14 +55,17 @@
 </template>
 <script>
 import { mapState } from "vuex"
+import moment from "moment"
 export default {
     mounted() {
         this.$store.dispatch('getProfile', this.$route.params.id)
+        this.$store.dispatch('getProfilePosts', this.$route.params.id)
     },
     computed: {
         ...mapState({
             profile: state => state.auth.profile,
-            user: state => state.auth.user
+            user: state => state.auth.user,
+            posts: state => state.post.profile_posts
         })
     },
     data() {
@@ -97,6 +98,16 @@ export default {
                     item['active'] = false
                 }
             })
+        },
+        momentJS(date) {
+            return moment(date).fromNow()
+        },
+        goToProfile(id) {
+            this.$router.push(`/profile/${id}`)
+        },
+        gotoDetail(id) {
+            this.$store.dispatch('getById', id)
+            this.$router.push(`/detail/${id}`)
         }
     }
 }
@@ -173,6 +184,9 @@ export default {
     border-radius: 4px;
 }
 
+p {
+    margin-bottom: 0;
+}
 
 .drop-menu li {
     padding: 5px 10px;
@@ -181,5 +195,53 @@ export default {
 
 .drop-menu li:last-child {
     border-bottom: none;
+}
+
+.user {
+    display: flex;
+    height: 56px;
+    padding: 0px 16px;
+    gap: 5px;
+    align-items: center;
+    cursor: pointer;
+}
+
+.user .avatar {
+    width: 40px;
+    height: 40px;
+}
+
+.user .avatar img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.link {
+    text-decoration: none;
+    color: #6c757d;
+}
+
+.btn:hover .link,
+.btn:hover span {
+    color: #fff;
+}
+
+.btns {
+    display: flex;
+    gap: 15px;
+}
+
+.post_img {
+    width: 100%;
+    height: 235px;
+    object-fit: cover;
+}
+
+video {
+    width: 100%;
+    height: 235px;
+    object-fit: cover;
 }
 </style>
