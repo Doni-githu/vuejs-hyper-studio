@@ -11,3 +11,12 @@
 .btn {
     transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out !important;
 }
+
+::-webkit-scrollbar {
+    width: 2px;
+    height: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #000;
+}

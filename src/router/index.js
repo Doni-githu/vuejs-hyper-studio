@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { HomeView, AboutView, LoginView, RegisterView, UserProfileView, UsersView, AddNewPostView, DetailPostView } from '../views/'
+import { HomeView, LoginView, RegisterView, UserProfileView, UsersView, AddNewPostView, DetailPostView, ChatView, DeleteView, EditView, ReallyEditView } from '../views/'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -8,11 +8,6 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: HomeView
-    },
-    {
-      path: '/about',
-      name: 'about',
-      component: AboutView
     },
     {
       path: '/login',
@@ -42,13 +37,23 @@ const router = createRouter({
     {
       path: '/chat',
       name: 'chat',
-      component: import('../views/Chat.vue')
+      component: ChatView
     },
     {
       path: '/detail/:id',
       name: 'detail',
       component: DetailPostView
-    }
+    },
+    {
+      path: '/delete/:id',
+      name: 'delete',
+      component: DeleteView
+    },
+    {
+      path: '/editor/:id',
+      name: 'edit',
+      component: EditView
+    },
   ]
 })
 

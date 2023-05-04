@@ -3,7 +3,7 @@
         <p class="fs-1">Register</p>
         <form @submit.prevent>
             <template v-if="error">
-                <Error :error="error?.message" :closeHandler="closeHandler" />
+                <Error :error="error" :closeHandler="closeHandler" />
             </template>
             <Input :label="'Your name'" :type="'text'" v-model="username" />
             <Input :label="'Your Channel'" :type="'text'" v-model="channel" />
@@ -14,7 +14,7 @@
                 <label for="image">Image</label>
             </div>
             <button @click="LoginHandler" class="btn btn-primary" :disabled="isLoading">
-                {{ isLoading ? 'Loading...' : 'Login' }}
+                {{ isLoading ? 'Loading...' : 'Register' }}
             </button>
         </form>
     </div>
@@ -30,12 +30,13 @@ export default {
             username: '',
             channel: '',
             file: null,
-            error: null,
+            error: '',
         }
     },
     methods: {
         LoginHandler() {
             if (!this.email || !this.password || !this.username || !this.channel || !this.file) {
+                this.error = 'All fields are required'
                 return
             }
 
@@ -51,12 +52,18 @@ export default {
                 .then(() => {
                     this.$router.push('/')
                 }).catch((err) => {
-                    this.error = err?.data
+                    this.error = err.data?.message
                 })
         },
         ChangeFile({ target }) {
             const { files } = target
-            this.file = files[0]
+            const type = files[0].type.split('/')[1]
+            if (type === 'jpeg' || type === 'png') {
+                this.file = files[0]
+            } else {
+                this.error = 'You can upload only jpeg, png'
+                return
+            }
         },
         closeHandler() {
             this.error = null

@@ -10,8 +10,14 @@ const Post = {
     getById(id) {
         return axios.get(`/post/${id}`)
     },
-    getProfilePosts(id){
+    getProfilePosts(id) {
         return axios.get(`/posts/${id}`)
+    },
+    deletePost(id) {
+        return axios.delete(`/post/${id}`)
+    },
+    editPost(fd){
+        return axios.put(`/post`, fd)
     }
 }
 

@@ -1,7 +1,7 @@
 <template>
     <div class="form-floating">
         <textarea class="form-control" v-on:input="onUpdate" :placeholder="label" :id="label"
-            style="height: 100px; resize: none;">{{ modelValue }}</textarea>
+            style="height: 100px; resize: none;" :value="modelValue">{{ modelValue }}</textarea>
         <label :for="label">{{ label }}</label>
     </div>
 </template>

@@ -1,7 +1,7 @@
 <template>
     <div class="text-center w-100">
-        <p class="fs-1">Post</p>
-        <form @submit.prevent class="form">
+        <p class="fs-1">Edit</p>
+        <form @submit.prevent class="form2">
             <template v-if="error">
                 <Error :error="error" :closeHandler="closeHandler" />
             </template>
@@ -29,7 +29,7 @@
                     <label for="image">{{ upperCase(type) }}</label>
                 </div>
             </template>
-            <button class="w-100 btn btn-primary" @click="SenderPost">Post</button>
+            <button class="w-100 btn btn-primary" @click="SenderPost">Edit</button>
         </form>
     </div>
 </template>
@@ -37,21 +37,22 @@
 export default {
     data() {
         return {
-            title: '',
-            body: '',
-            type: '',
-            file: null,
-            error: ''
+            title: this.fields.title,
+            body: this.fields.body,
+            type: this.fields.type,
+            file: '',
+            error: '',
+        }
+    },
+    props: {
+        fields: {
+            type: Object,
+            required: true
         }
     },
     methods: {
-        change({ target }) {
-            const { value } = target
-            this.type = value
-        },
-        upperCase(txt) {
-            const newTxt = txt.charAt(0).toUpperCase() + txt.slice(1)
-            return newTxt
+        closeHandler() {
+            this.error = null
         },
         ChangeFile({ target }) {
             const { files } = target
@@ -84,16 +85,21 @@ export default {
             fd.append('body', this.body)
             fd.append('image', this.file)
             fd.append('type', this.type)
-            this.$store.dispatch('sendPost', fd)
-                .then((res) => {
+            fd.append('id', this.$route.params.id)
+            this.$store.dispatch('editPost', fd)
+                .then(() => {
                     this.$router.push('/')
                 })
         },
-        closeHandler() {
-            this.error = null
-        }
-    },
-
+        upperCase(txt) {
+            const newTxt = txt.charAt(0).toUpperCase() + txt.slice(1)
+            return newTxt
+        },
+        change({ target }) {
+            const { value } = target
+            this.type = value
+        },
+    }
 }
 </script>
 <style scoped>
@@ -108,7 +114,7 @@ export default {
     border-radius: 5px;
 }
 
-.form {
+.form2 {
     width: 60%;
     display: flex;
     margin: 0 auto;

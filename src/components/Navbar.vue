@@ -36,7 +36,7 @@
                         <button type="button" class="btn btn-primary me-2" @click="$router.push('/login')">
                             Login
                         </button>
-                        <button type="button" class="btn btn-success" @click="$router.push('/register')">Sign-up</button>
+                        <button type="button" class="btn btn-success" @click="$router.push('/register')">Register</button>
                     </template>
                     <template v-else>
                         <div class="btn-group">
@@ -79,7 +79,9 @@ export default {
         },
         PushToProfile() {
             this.$store.commit('ClearProfile')
+            this.$store.commit('ClearProfilePosts')
             this.$store.dispatch('getProfile', this.user._id)
+            this.$store.dispatch('getProfilePosts', this.user._id)
             this.$router.push(`/profile/${this.user._id}`)
             this.active = false
         }

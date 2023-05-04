@@ -29,7 +29,7 @@
                                     <span>Detail</span>
                                 </button>
                             </div>
-                            <small class="text-body-secondary">{{ momentJS(post.createdAt) }}</small>
+                            <small class="text-body-secondary">{{ momentJS(post.createdAt === post.updatedAt ? post.createdAt : post.updatedAt) }}</small>
                         </div>
                     </div>
                 </div>

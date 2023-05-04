@@ -4,7 +4,7 @@
             <div class="left">
                 <div class="post_img_or_video">
                     <template v-if="post.type === 'img'">
-                        <img :src="post.src">
+                        <img class="img" :src="post.src">
                     </template>
                     <template v-else>
                         <video controls>
@@ -37,7 +37,28 @@
                 </div>
             </div>
             <div class="right">
-                <h1>Right</h1>
+                <div class="flex">
+                    <button class="btn" :class="{ 'active': activeBody }"
+                        @click="activeComment = false, activeBody = true">Body</button>
+                    <button class="btn" :class="{ 'active': activeComment }"
+                        @click="activeComment = true, activeBody = false">Comment</button>
+                </div>
+                <div class="mt-4">
+                    <template v-if="activeBody">
+                        <p>{{ post.body }}</p>
+                    </template>
+                    <template v-if="activeComment">
+                        <form class="form-comment" @submit.prevent>
+                            <Input :label="'Comment...'" @keyup.enter="onComment" v-model="comment" :type="'text'" />
+                        </form>
+                        <div class="context">
+                            <div class="context-card" v-for="item in items">
+                                {{ item.comment }}
+                                {{ item.user }}
+                            </div>
+                        </div>
+                    </template>
+                </div>
             </div>
         </div>
     </template>
@@ -49,32 +70,73 @@
 </template>
 <script>
 import { mapState } from 'vuex';
-
+import io from "socket.io-client"
 export default {
     mounted() {
         this.$store.dispatch('getById', this.$route.params.id)
+        this.socketInstanse = io('http://localhost:3000')
+
     },
     computed: {
         ...mapState({
-            post: state => state.post.post
+            post: state => state.post.post,
+            user: state => state.auth.user
         })
     },
     data() {
         return {
-            active: false
+            active: false,
+            activeBody: true,
+            activeComment: false,
+            comment: '',
+            items: [
+                {
+                    comment: 'awdawdwadwa"adawdawdwadwada',
+                    user: 1,
+                }
+            ]
         }
     },
     methods: {
         onLike() {
+            if (!localStorage.getItem('token')) {
+                alert('Please login or register on our website')
+                this.$router.push('/login')
+                return
+            }
+
             this.active = true
         },
         onUnLike() {
             this.active = false
+        },
+        onComment() {
+
+        },
+        addComment() {
+            const comment = {
+                product: this.post._id,
+                comment: this.comment,
+                user: this.user,
+            }
+            this.items = this.items.concat(comment)
+            this.socketInstanse.emit('comment', comment)
+            this.comment = ''
         }
     }
 }
 </script>
 <style scoped>
+.img {
+    width: 100%;
+    object-fit: cover;
+}
+
+.flex {
+    display: flex;
+    gap: 30px;
+}
+
 .detail {
     width: 100%;
     display: flex;

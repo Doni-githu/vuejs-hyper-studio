@@ -37,14 +37,17 @@ const mutations = {
         state.isLoading = false
         state.post = payload
     },
-    StartGetProfilePosts(state){
+    StartGetProfilePosts(state) {
         state.profile_posts = null
         state.isLoading = true
     },
-    SuccessGetProfilePosts(state, payload){
+    SuccessGetProfilePosts(state, payload) {
         state.isLoading = false
         state.profile_posts = payload
     },
+    ClearProfilePosts(state) {
+        state.profile_posts = null
+    }
 }
 
 const actions = {
@@ -75,18 +78,19 @@ const actions = {
         })
     },
     getById(context, id) {
-        return new Promise(() => {
+        return new Promise((resolve) => {
             context.commit('StartGetById')
             Post.getById(id)
                 .then(({ data }) => {
                     context.commit('SuccessGetById', data)
+                    resolve(data)
                 }).catch(() => {
                     context.commit('FailurGetAllPosts')
                 })
         })
     },
-    getProfilePosts(context, id){
-        return new Promise(() => {
+    getProfilePosts(context, id) {
+        return new Promise((resolve) => {
             context.commit('StartGetProfilePosts')
             Post.getProfilePosts(id)
                 .then((res) => {
@@ -95,6 +99,32 @@ const actions = {
                 }).catch((error) => {
                     console.log(error)
                     context.commit('FailurGetAllPosts')
+                })
+        })
+    },
+    deletePost(context, id) {
+        return new Promise((resolve) => {
+            context.commit('StartSendPost')
+            Post.deletePost(id)
+                .then(() => {
+                    context.commit('SuccessSendPost')
+                    resolve()
+                }).catch(() => {
+                    context.commit('FailurSendPost')
+                })
+        })
+    },
+    editPost(context, fd) {
+        return new Promise((resolve) => {
+            context.commit('StartSendPost')
+            Post.editPost(fd)
+                .then((res) => {
+                    console.log(res.data)
+                    context.commit('SuccessSendPost')
+                    resolve(res.data)
+                }).catch((err) => {
+                    console.log(err);
+                    context.commit('SuccessSendPost')
                 })
         })
     }

@@ -1,63 +1,89 @@
 <template>
-    <div class="profile">
-        <div class="menu">
-            <div class="right">
-                <div class="profile_img">
-                    <img :src="profile?.src">
-                </div>
-                <div class="grid">
-                    <p class="title">{{ profile?.username }}</p>
-                    <p>{{ profile?.email }}</p>
-                </div>
-            </div>
-        </div>
-        <div class="container">
-            <div class="filter">
-                <p>Photos and Videos</p>
-            </div>
-            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-                <div class="col" v-for="post in posts" :key="post._id">
-                    <div class="card shadow-sm">
-                        <div class="user" @click="goToProfile(post.user._id)">
-                            <div class="avatar">
-                                <img :src="post.user.src">
-                            </div>
-                            <div class="main">
-                                <p>{{ post.user.username }}</p>
-                            </div>
-                        </div>
-                        <template v-if="post.type === 'img'">
-                            <img :src="post.src" class="post_img">
-                        </template>
-                        <template v-else>
-                            <video controls>
-                                <source :src="post.src">
-                            </video>
-                        </template>
-                        <div class="card-body">
-                            <p class="card-title">{{ post.title }}</p>
-                            <p class="card-body" style="word-break: break-all;">{{ post.body }}</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-sm btn-outline-secondary text-secondary btns"
-                                        @click="gotoDetail(post._id)">
-                                        <span>Detail</span>
-                                    </button>
-                                </div>
-                                <small class="text-body-secondary">{{ momentJS(post.createdAt) }}</small>
-                            </div>
-                        </div>
+    <template v-if="!isLoading">
+        <div class="profile">
+            <div class="menu">
+                <div class="right">
+                    <div class="profile_img">
+                        <img :src="profile?.src">
+                    </div>
+                    <div class="grid">
+                        <p class="title">{{ profile?.username }}</p>
+                        <p>{{ profile?.email }}</p>
                     </div>
                 </div>
             </div>
+            <div class="container">
+                <div class="filter">
+                    <p>Photos and Videos</p>
+                </div>
+                <template v-if="posts?.length !== 0">
+                    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                        <div class="col" v-for="post in posts" :key="post._id">
+                            <div class="card shadow-sm">
+                                <div class="user" @click="goToProfile(post.user._id)">
+                                    <div class="avatar">
+                                        <img :src="post.user.src">
+                                    </div>
+                                    <div class="main">
+                                        <p>{{ post.user.username }}</p>
+                                    </div>
+                                </div>
+                                <template v-if="post.type === 'img'">
+                                    <img :src="post.src" class="post_img">
+                                </template>
+                                <template v-else>
+                                    <video controls>
+                                        <source :src="post.src">
+                                    </video>
+                                </template>
+                                <div class="card-body">
+                                    <p class="card-title">{{ post.title }}</p>
+                                    <p class="card-body" style="word-break: break-all;">{{ post.body }}</p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="btn-group">
+                                            <button type="button"
+                                                class="btn btn-sm btn-outline-secondary text-secondary btns"
+                                                @click="gotoDetail(post._id)">
+                                                <span>Detail</span>
+                                            </button>
+                                            <button type="button" class="btn btn-sm btn-outline-primary text-primary btns"
+                                                @click="$router.push(`/editor/${post._id}`)">
+                                                <span>Edit</span>
+                                            </button>
+                                            <button type="button" class="btn btn-sm btn-outline-danger text-danger btns"
+                                                @click="$router.push(`/delete/${post._id}`)">
+                                                <span>Delete</span>
+                                            </button>
+                                        </div>
+                                        <small class="text-body-secondary">{{ momentJS(post.createdAt) }}</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+                <template v-else>
+                    <div class="d-flex justify-content-center flex-column align-items-center">
+                        <p class="fs-1 text-danger">no posts</p>
+                        <button v-show="profile._id === user._id" class="btn btn-outline-success"
+                            @click="this.$router.push('/add')">create post</button>
+                    </div>
+                </template>
+            </div>
         </div>
-    </div>
+    </template>
+    <template v-else>
+        <div class="text-center">
+            <Loader />
+        </div>
+    </template>
 </template>
 <script>
 import { mapState } from "vuex"
 import moment from "moment"
 export default {
     mounted() {
+        console.log('mounted');
         this.$store.dispatch('getProfile', this.$route.params.id)
         this.$store.dispatch('getProfilePosts', this.$route.params.id)
     },
@@ -65,39 +91,18 @@ export default {
         ...mapState({
             profile: state => state.auth.profile,
             user: state => state.auth.user,
-            posts: state => state.post.profile_posts
+            posts: state => state.post.profile_posts,
+            isLoading: state => state.post.isLoading
         })
     },
     data() {
         return {
-            action: false,
-            filter: 'photo',
-            btns: [
-                {
-                    id: 1,
-                    txt: 'Photo',
-                    active: true
-                },
-                {
-                    id: 2,
-                    txt: 'Videos',
-                    active: false
-                },
-            ]
+            action: true,
         }
     },
     methods: {
         change() {
             this.action = !this.action
-        },
-        toogle(id) {
-            this.btns.map(item => {
-                if (item.id === id) {
-                    item['active'] = true
-                } else {
-                    item['active'] = false
-                }
-            })
         },
         momentJS(date) {
             return moment(date).fromNow()
@@ -108,7 +113,7 @@ export default {
         gotoDetail(id) {
             this.$store.dispatch('getById', id)
             this.$router.push(`/detail/${id}`)
-        }
+        },
     }
 }
 </script>

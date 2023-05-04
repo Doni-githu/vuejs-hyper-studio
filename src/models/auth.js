@@ -63,12 +63,13 @@ const mutations = {
 
 const actions = {
     login(context, user) {
-        return new Promise((_, reject) => {
+        return new Promise((resolve, reject) => {
             context.commit('StartLogin')
             UserRequests.login(user)
                 .then((res) => {
                     context.commit('SuccessLogin', res.data.user)
                     localStorage.setItem('token', `Token ${res.data.user.token}`)
+                    resolve()
                 }).catch((err) => {
                     context.commit('FailurLogin', err.response.data)
                     reject(err.response.data)
@@ -98,12 +99,13 @@ const actions = {
         })
     },
     register(context, user) {
-        return new Promise((_, reject) => {
+        return new Promise((resolve, reject) => {
             context.commit('StartRegister')
             UserRequests.register(user)
                 .then((res) => {
                     localStorage.setItem('token', `Token ${res.data.user.token}`)
                     context.commit('SuccessRegister', res.data.user)
+                    resolve()
                 }).catch((err) => {
                     reject(err.response)
                     context.commit('FailurRegister', err.response)
