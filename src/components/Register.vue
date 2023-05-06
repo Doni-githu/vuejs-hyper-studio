@@ -98,4 +98,10 @@ export default {
     padding: 10px 15px;
     border-radius: 5px;
 }
+
+@media only screen and (max-width:470px){
+    .login form{
+        width: 98%;
+    }
+}
 </style>

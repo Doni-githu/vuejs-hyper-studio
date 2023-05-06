@@ -31,4 +31,10 @@ export default {
 .mb-10rem {
   padding-top: 100px;
 }
+
+@media only screen and (max-width:400px) {
+  .mb-10rem {
+    padding-top: 120px;
+  }
+}
 </style>

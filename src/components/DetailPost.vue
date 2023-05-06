@@ -43,7 +43,7 @@
                 </div>
                 <div class="mt-4">
                     <template v-if="activeBody">
-                        <p>{{ post.body }}</p>
+                        <p class="body">{{ post.body }}</p>
                     </template>
                     <template v-if="activeComment">
                         <form class="form-comment" @submit.prevent>
@@ -111,11 +111,6 @@
                                 </div>
                             </div>
                         </template>
-                        <template v-else>
-                            <div class="text-center">
-                                <Loader />
-                            </div>
-                        </template>
                     </template>
                 </div>
             </div>
@@ -133,7 +128,7 @@ import io from "socket.io-client"
 import moment from 'moment';
 export default {
     beforeMount() {
-        this.socketInstanse = io('http://localhost:3000')
+        this.socketInstanse = io('https://nodejs-backend-application.onrender.com')
     },
     mounted() {
         this.$store.dispatch('getById', this.$route.params.id)
@@ -367,6 +362,12 @@ export default {
 }
 </script>
 <style scoped>
+.body {
+    width: 100%;
+    height: 480px;
+    overflow: auto;
+}
+
 .top {
     display: flex;
     justify-content: space-between;
@@ -514,5 +515,41 @@ p {
     height: 40px;
     object-fit: cover;
     border-radius: 50%;
+}
+
+@media only screen and (max-width:1353px) {
+    .detail {
+        width: 80%;
+        margin: 0 auto;
+    }
+}
+
+@media only screen and (max-width:1000px) {
+    .detail {
+        flex-direction: column;
+        width: 80%;
+        align-items: center;
+        gap: 20px;
+        justify-content: center;
+    }
+
+    .detail .left {
+        width: 100%;
+    }
+
+    .detail .right {
+        width: 100%;
+    }
+}
+
+@media only screen and (max-width: 531px) {
+    .detail {
+        width: 100%;
+    }
+
+    .img {
+        height: 300px;
+        object-fit: cover;
+    }
 }
 </style>

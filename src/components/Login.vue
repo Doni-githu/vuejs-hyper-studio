@@ -72,4 +72,10 @@ export default {
     flex-direction: column;
     gap: 20px;
 }
+
+@media only screen and (max-width:470px){
+    .login form{
+        width: 98%;
+    }
+}
 </style>

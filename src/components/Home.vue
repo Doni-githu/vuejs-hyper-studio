@@ -1,14 +1,16 @@
 <template>
-    <template v-if="!isLoading && posts">
+    <template v-if="posts && !isLoading">
         <div class="cards">
             <div class="cardFather" v-for="post in posts" :key="post._id">
                 <div class="card shadow-sm">
-                    <div class="user" @click="goToProfile(post.user._id)">
-                        <div class="avatar">
-                            <img :src="post.user.src">
-                        </div>
-                        <div class="main">
-                            <p>{{ post.user.username }}</p>
+                    <div class="top">
+                        <div class="user" @click="goToProfile(post.user._id)">
+                            <div class="avatar">
+                                <img :src="post.user.src">
+                            </div>
+                            <div class="main">
+                                <p>{{ post.user.username }}</p>
+                            </div>
                         </div>
                     </div>
                     <template v-if="post.type === 'img'">
@@ -28,6 +30,18 @@
                                     @click="gotoDetail(post._id)">
                                     <span>Detail</span>
                                 </button>
+                                <template v-if="user">
+                                    <template v-if="post.user._id === user._id">
+                                        <button type="button" class="btn btn-sm btn-outline-primary text-primary btns"
+                                            @click="$router.push(`/editor/${post._id}`)">
+                                            <span>Edit</span>
+                                        </button>
+                                        <button type="button" class="btn btn-sm btn-outline-danger text-danger btns"
+                                            @click="$router.push(`/delete/${post._id}`)">
+                                            <span>Delete</span>
+                                        </button>
+                                    </template>
+                                </template>
                             </div>
                             <small class="text-body-secondary">{{ momentJS(post.createdAt === post.updatedAt ?
                                 post.createdAt : post.updatedAt) }}</small>
@@ -53,7 +67,8 @@ export default {
     computed: {
         ...mapState({
             posts: state => state.post.posts,
-            isLoading: state => state.post.isLoading
+            isLoading: state => state.post.isLoading,
+            user: state => state.auth.user
         })
     },
     methods: {
@@ -71,6 +86,12 @@ export default {
 }
 </script>
 <style scoped>
+.top {
+    display: flex;
+    justify-content: space-between;
+}
+
+
 body.dark small,
 body.dark span {
     color: #fff !important;
@@ -92,7 +113,7 @@ body.dark span {
 .cards {
     width: 100%;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
     gap: 25px;
     flex-wrap: wrap;
 }
@@ -153,5 +174,17 @@ video {
     width: 100%;
     height: 235px;
     object-fit: cover;
+}
+
+@media only screen and (max-width:1520px) {
+    .cards {
+        width: 80%;
+    }
+}
+
+@media only screen and (max-width:333px) {
+    .cardFather {
+        width: 290px;
+    }
 }
 </style>

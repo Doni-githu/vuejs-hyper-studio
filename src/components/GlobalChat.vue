@@ -51,7 +51,7 @@ export default {
         }
     },
     mounted() {
-        this.socketInstanse = io('http://localhost:3000')
+        this.socketInstanse = io('https://nodejs-backend-application.onrender.com')
         this.socketInstanse.on(
             'message:received',
             (data) => {
@@ -135,5 +135,27 @@ p {
     height: 40px;
     object-fit: cover;
     border-radius: 50%;
+}
+
+@media only screen and (max-width:1500px) {
+    .global {
+        width: 80%;
+        margin: 0 auto;
+    }
+
+    .out-put-card.right {
+        margin-left: 30rem !important;
+    }
+}
+@media only screen and (max-width:1000px){
+    .out-put-card.right{
+        margin-left: 1rem !important;
+    }
+}
+
+@media only screen and (max-width:500px){
+    .global{
+        width: 100%;
+    }
 }
 </style>

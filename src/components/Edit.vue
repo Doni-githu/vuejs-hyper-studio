@@ -29,11 +29,15 @@
                     <label for="image">{{ upperCase(type) }}</label>
                 </div>
             </template>
-            <button class="w-100 btn btn-primary" @click="SenderPost">Edit</button>
+            <button class="w-100 btn btn-primary" @click="SenderPost" :disabled="isLoading">
+                {{ isLoading ? 'Loading...' : 'Edit' }}
+            </button>
         </form>
     </div>
 </template>
 <script>
+import { mapState } from 'vuex'
+
 export default {
     data() {
         return {
@@ -99,6 +103,11 @@ export default {
             const { value } = target
             this.type = value
         },
+    },
+    computed: {
+        ...mapState({
+            isLoading: state => state.post.isLoading
+        })
     }
 }
 </script>
@@ -120,5 +129,10 @@ export default {
     margin: 0 auto;
     flex-direction: column;
     gap: 20px;
+}
+@media only screen and (max-width:769px){
+    .form2{
+        width: 100%;
+    }
 }
 </style>

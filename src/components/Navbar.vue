@@ -130,7 +130,7 @@ export default {
     width: 100%;
     padding-bottom: 0;
     position: fixed;
-    z-index: 9999;
+    z-index: 9999999;
     padding-top: 10px;
     background-color: #edf2f4;
 }
@@ -142,6 +142,8 @@ export default {
 
 body {
     position: relative;
+    background-color: #fff;
+    color: #000;
 }
 
 .nav {
@@ -219,5 +221,31 @@ h2 {
     height: 40px;
     border-radius: 50%;
     object-fit: cover;
+}
+@media only screen and (max-width:400px){
+    .nav{
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        height: 100px;
+    }
+
+    .container{
+        height: 100px;
+    }
+}
+
+@media only screen and (max-width:769px) {
+    .navigation {
+        width: 100%;
+        height: 10vh;
+        bottom: 0;
+        padding: 0 20px;
+        align-items: center;
+        top: auto;
+        justify-content: space-between;
+        flex-direction: row;
+        margin-bottom: 0;
+    }
 }
 </style>

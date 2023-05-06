@@ -16,17 +16,18 @@
                 <div class="filter">
                     <p>Photos and Videos</p>
                 </div>
-                <p>{{ msg }}</p>
                 <template v-if="posts?.length !== 0">
-                    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-                        <div class="col" v-for="post in posts" :key="post._id">
+                    <div class="cards">
+                        <div class="cardFather" v-for="post in posts" :key="post._id">
                             <div class="card shadow-sm">
-                                <div class="user" @click="goToProfile(post.user._id)">
-                                    <div class="avatar">
-                                        <img :src="post.user.src">
-                                    </div>
-                                    <div class="main">
-                                        <p>{{ post.user.username }}</p>
+                                <div class="top">
+                                    <div class="user" @click="goToProfile(post.user._id)">
+                                        <div class="avatar">
+                                            <img :src="post.user.src">
+                                        </div>
+                                        <div class="main">
+                                            <p>{{ post.user.username }}</p>
+                                        </div>
                                     </div>
                                 </div>
                                 <template v-if="post.type === 'img'">
@@ -39,15 +40,14 @@
                                 </template>
                                 <div class="card-body">
                                     <p class="card-title">{{ post.title }}</p>
-                                    <p class="card-body" style="word-break: break-all;">{{ post.body }}</p>
+                                    <p class="card-b" style="word-break: break-all;">{{ post.body }}</p>
                                     <div class="d-flex justify-content-between align-items-center">
                                         <div class="btn-group">
-                                            <button type="button"
-                                                class="btn btn-sm btn-outline-secondary text-secondary btns"
+                                            <button type="button" class="btn btn-sm btn-outline-secondary btns"
                                                 @click="gotoDetail(post._id)">
                                                 <span>Detail</span>
                                             </button>
-                                            <template v-if="user._id === profile._id">
+                                            <template v-if="post.user._id === user._id">
                                                 <button type="button"
                                                     class="btn btn-sm btn-outline-primary text-primary btns"
                                                     @click="$router.push(`/editor/${post._id}`)">
@@ -59,7 +59,8 @@
                                                 </button>
                                             </template>
                                         </div>
-                                        <small class="text-body-secondary">{{ momentJS(post.createdAt) }}</small>
+                                        <small class="text-body-secondary">{{ momentJS(post.createdAt === post.updatedAt ?
+                                            post.createdAt : post.updatedAt) }}</small>
                                     </div>
                                 </div>
                             </div>
@@ -251,5 +252,125 @@ video {
     width: 100%;
     height: 235px;
     object-fit: cover;
+}
+
+.top {
+    display: flex;
+    justify-content: space-between;
+}
+
+
+body.dark small,
+body.dark span {
+    color: #fff !important;
+}
+
+.card-b {
+    width: 100%;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.cards {
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    gap: 25px;
+    flex-wrap: wrap;
+}
+
+.cardFather {
+    width: 320px;
+    height: auto;
+}
+
+p {
+    margin-bottom: 0;
+}
+
+
+.user {
+    display: flex;
+    height: 56px;
+    padding: 0px 16px;
+    gap: 8px;
+    align-items: center;
+    cursor: pointer;
+}
+
+.user .avatar {
+    width: 40px;
+    height: 40px;
+}
+
+.user .avatar img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.link {
+    text-decoration: none;
+    color: #6c757d;
+}
+
+.btn:hover .link,
+.btn:hover span {
+    color: #fff;
+}
+
+
+
+@media only screen and (max-width:1520px) {
+    .cards {
+        width: 80%;
+        margin: 0 auto;
+    }
+}
+
+@media only screen and (max-width:333px){
+    .cardFather{
+        width: 290px;
+    }
+}
+
+
+@media only screen and (max-width:1520px) {
+    .profile {
+        width: 80%;
+        margin: 0 auto;
+    }
+}
+
+@media only screen and (max-width:470px){
+    .profile {
+        width: 100%;
+        margin: 0 auto;
+    }
+
+    .cards{
+        width: 100%;
+    }
+}
+
+@media only screen and (max-width:344px){
+    .grid{
+        width: 150px;
+    }
+
+    .grid p:last-child{
+        width: 150px;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
 }
 </style>

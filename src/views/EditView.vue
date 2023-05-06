@@ -1,5 +1,5 @@
 <template>
-    <div class="d-flex flex-column justify-content-center align-items-center">
+    <div class="d-flex flex-column justify-content-center align-items-center mb-2rem">
         <div class="form" v-if="active">
             <div class="right">
                 <h1>Really edit?!</h1>
@@ -48,7 +48,6 @@ body.dark .btnX {
 
 .btnX {
     display: flex;
-    /* padding: 10px; */
     width: 40px;
     align-items: center;
     justify-content: center;
@@ -71,4 +70,15 @@ body.dark .btnX {
     display: flex;
     gap: 50px;
 }
+
+@media only screen and (max-width:769px) {
+    .form {
+        width: 100%;
+    }
+}
+@media only screen and (max-width:400px){
+    .mb-2rem{
+        margin-top: 2rem;
+    }
+}   
 </style>

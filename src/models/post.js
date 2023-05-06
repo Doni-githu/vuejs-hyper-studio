@@ -100,7 +100,6 @@ const actions = {
             context.commit('StartGetProfilePosts')
             Post.getProfilePosts(id)
                 .then((res) => {
-                    console.log(res.data)
                     context.commit('SuccessGetProfilePosts', res.data)
                 }).catch((error) => {
                     console.log(error)
@@ -125,7 +124,6 @@ const actions = {
             context.commit('StartSendPost')
             Post.editPost(fd)
                 .then((res) => {
-                    console.log(res.data)
                     context.commit('SuccessSendPost')
                     resolve(res.data)
                 }).catch((err) => {
@@ -140,11 +138,9 @@ const actions = {
             Post.likePost(id)
                 .then((res) => {
                     context.commit('SuccessLikeAndUnlikeOrFailur')
-                    console.log(res.data)
                     resolve()
                 }).catch((error) => {
                     context.commit('SuccessLikeAndUnlikeOrFailur')
-                    console.log(error)
                 })
         })
     },
