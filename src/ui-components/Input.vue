@@ -1,8 +1,5 @@
 <template>
-    <div class="form-floating">
-        <input :type="type" :value="modelValue" @input="onInput" class="form-control" :id="label" :placeholder="label">
-        <label :for="label">{{ label }}</label>
-    </div>
+    <input :type="type" :value="modelValue" @input="onInput" class="form-control" :id="label" :placeholder="label">
 </template>
 <script>
 export default {
@@ -18,7 +15,7 @@ export default {
         modelValue: [String]
     },
     methods: {
-        onInput(e){
+        onInput(e) {
             this.$emit('update:modelValue', e.target.value)
         }
     },

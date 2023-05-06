@@ -1,7 +1,7 @@
 <template>
     <div class="card_users">
-        <div class="src">
-            <img :src="user.src">
+        <div class="src" :style="`background-image: url(${user.src})`" style="background-position: center; background-size: cover; border-radius: 5px;" >
+
         </div>
         <div class="card_users_name" @click="$router.push(`/profile/${user._id}`)">{{ user.username }}</div>
     </div>
@@ -13,7 +13,7 @@ export default {
             type: Object,
             required: true
         }
-    }
+    },
 }
 </script>
 <style scoped>

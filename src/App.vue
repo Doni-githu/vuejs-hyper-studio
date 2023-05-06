@@ -11,9 +11,19 @@ import Navbar from "./components/Navbar.vue";
 export default {
   components: { Navbar },
   mounted() {
-    if(localStorage.getItem('token')){
+    if (localStorage.getItem('token')) {
       this.$store.dispatch('getUser')
     }
+    if (localStorage.getItem('theme') === 'dark') {
+      document.body.classList.add('dark')
+      document.body.classList.remove('light')
+    } else {
+      document.body.classList.add('light')
+      document.body.classList.remove('dark')
+    }
+  },
+  provide: {
+    msg: 'Hello World'
   }
 }
 </script>

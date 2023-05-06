@@ -1,9 +1,14 @@
 <template>
     <div class="users">
         <Input :type="'text'" :label="'Search users'" v-model="term" />
-        <div class="cards_users">
-            <CardUser v-for="user in Term(term.toLowerCase(), users)" :user="user" :key="user.id" />
-        </div>
+        <template v-if="this.users.length">
+            <div class="cards_users">
+                <CardUser v-for="user in Term(term.toLowerCase(), users)" :user="user" :key="user.id" />
+            </div>
+        </template>
+        <template v-else>
+            <h1 class="text-center text-danger">No users</h1>
+        </template>
     </div>
 </template>
 <script>

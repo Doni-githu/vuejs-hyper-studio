@@ -47,7 +47,13 @@ const mutations = {
     },
     ClearProfilePosts(state) {
         state.profile_posts = null
-    }
+    },
+    StartLikeAndUnlike(state) {
+        state.isLoading = true
+    },
+    SuccessLikeAndUnlikeOrFailur(state) {
+        state.isLoading = false
+    },
 }
 
 const actions = {
@@ -125,6 +131,33 @@ const actions = {
                 }).catch((err) => {
                     console.log(err);
                     context.commit('SuccessSendPost')
+                })
+        })
+    },
+    like(context, id) {
+        return new Promise((resolve) => {
+            context.commit('StartLikeAndUnlike')
+            Post.likePost(id)
+                .then((res) => {
+                    context.commit('SuccessLikeAndUnlikeOrFailur')
+                    console.log(res.data)
+                    resolve()
+                }).catch((error) => {
+                    context.commit('SuccessLikeAndUnlikeOrFailur')
+                    console.log(error)
+                })
+        })
+    },
+    unlike(context, id) {
+        return new Promise((resolve) => {
+            context.commit('StartLikeAndUnlike')
+            Post.unLikePost(id)
+                .then((res) => {
+                    context.commit('SuccessLikeAndUnlikeOrFailur')
+                    resolve(res.data)
+                }).catch((error) => {
+                    context.commit('SuccessLikeAndUnlikeOrFailur')
+                    console.log(error)
                 })
         })
     }

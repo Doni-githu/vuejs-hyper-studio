@@ -6,7 +6,6 @@
                 <Error :error="error" :closeHandler="closeHandler" />
             </template>
             <Input :label="'Your name'" :type="'text'" v-model="username" />
-            <Input :label="'Your Channel'" :type="'text'" v-model="channel" />
             <Input :label="'Email'" :type="'email'" v-model="email" />
             <Input :label="'Password'" :type="'password'" v-model="password" />
             <div class="file">
@@ -28,14 +27,13 @@ export default {
             email: '',
             password: '',
             username: '',
-            channel: '',
             file: null,
             error: '',
         }
     },
     methods: {
         LoginHandler() {
-            if (!this.email || !this.password || !this.username || !this.channel || !this.file) {
+            if (!this.email || !this.password || !this.username || !this.file) {
                 this.error = 'All fields are required'
                 return
             }
@@ -44,7 +42,6 @@ export default {
 
             fd.append('email', this.email)
             fd.append('password', this.password)
-            fd.append('channel', this.channel)
             fd.append('username', this.username)
             fd.append('image', this.file)
 

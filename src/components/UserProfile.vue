@@ -16,6 +16,7 @@
                 <div class="filter">
                     <p>Photos and Videos</p>
                 </div>
+                <p>{{ msg }}</p>
                 <template v-if="posts?.length !== 0">
                     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
                         <div class="col" v-for="post in posts" :key="post._id">
@@ -46,14 +47,17 @@
                                                 @click="gotoDetail(post._id)">
                                                 <span>Detail</span>
                                             </button>
-                                            <button type="button" class="btn btn-sm btn-outline-primary text-primary btns"
-                                                @click="$router.push(`/editor/${post._id}`)">
-                                                <span>Edit</span>
-                                            </button>
-                                            <button type="button" class="btn btn-sm btn-outline-danger text-danger btns"
-                                                @click="$router.push(`/delete/${post._id}`)">
-                                                <span>Delete</span>
-                                            </button>
+                                            <template v-if="user._id === profile._id">
+                                                <button type="button"
+                                                    class="btn btn-sm btn-outline-primary text-primary btns"
+                                                    @click="$router.push(`/editor/${post._id}`)">
+                                                    <span>Edit</span>
+                                                </button>
+                                                <button type="button" class="btn btn-sm btn-outline-danger text-danger btns"
+                                                    @click="$router.push(`/delete/${post._id}`)">
+                                                    <span>Delete</span>
+                                                </button>
+                                            </template>
                                         </div>
                                         <small class="text-body-secondary">{{ momentJS(post.createdAt) }}</small>
                                     </div>
@@ -162,7 +166,6 @@ export default {
 
 
 .title {
-    font-family: 'Roboto';
     font-style: normal;
     font-weight: 500;
     font-size: 26px;

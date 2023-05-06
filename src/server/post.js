@@ -16,8 +16,14 @@ const Post = {
     deletePost(id) {
         return axios.delete(`/post/${id}`)
     },
-    editPost(fd){
+    editPost(fd) {
         return axios.put(`/post`, fd)
+    },
+    likePost(id) {
+        return axios.put(`/post/like/${id}`)
+    },
+    unLikePost(id){
+        return axios.put(`/post/unlike/${id}`)
     }
 }
 

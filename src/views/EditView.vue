@@ -1,13 +1,16 @@
 <template>
     <div class="d-flex flex-column justify-content-center align-items-center">
-        <div class="form">
-            <h1>Really edit?!</h1>
-            <p>If you edit your post you must change the post image or video.<br />Do you understand</p>
-            <div class="form-bts">
-                <button class="btn btn-success" @click="$router.back()">
-                    No thank's
-                </button>
+        <div class="form" v-if="active">
+            <div class="right">
+                <h1>Really edit?!</h1>
+                <p>If you edit your post you must change the post image or video.<br />Do you understand</p>
+                <div class="form-bts">
+                    <button class="btn btn-success" @click="$router.back()">
+                        No thank's
+                    </button>
+                </div>
             </div>
+            <button class="btnX" @click="active = false">&times;</button>
         </div>
         <Edit v-if="res" :fields="res" />
         <div v-else class="text-center">
@@ -21,7 +24,8 @@ export default {
     components: { Edit },
     data() {
         return {
-            res: null
+            res: null,
+            active: true
         }
     },
     mounted() {
@@ -35,6 +39,28 @@ export default {
 <style scoped>
 .form {
     width: 60%;
+    display: flex;
+}
+
+body.dark .btnX {
+    color: #fff;
+}
+
+.btnX {
+    display: flex;
+    /* padding: 10px; */
+    width: 40px;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    height: 40px;
+    background-color: transparent;
+    border: none;
+    font-size: 32px;
+}
+
+.right {
+    width: 100%;
     margin: 0 auto;
     display: flex;
     flex-direction: column;

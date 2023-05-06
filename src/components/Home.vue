@@ -1,7 +1,7 @@
 <template>
-    <template v-if="!isLoading">
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-            <div class="col" v-for="post in posts" :key="post._id">
+    <template v-if="!isLoading && posts">
+        <div class="cards">
+            <div class="cardFather" v-for="post in posts" :key="post._id">
                 <div class="card shadow-sm">
                     <div class="user" @click="goToProfile(post.user._id)">
                         <div class="avatar">
@@ -21,15 +21,16 @@
                     </template>
                     <div class="card-body">
                         <p class="card-title">{{ post.title }}</p>
-                        <p class="card-body" style="word-break: break-all;">{{ post.body }}</p>
+                        <p class="card-b" style="word-break: break-all;">{{ post.body }}</p>
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="btn-group">
-                                <button type="button" class="btn btn-sm btn-outline-secondary text-secondary btns"
+                                <button type="button" class="btn btn-sm btn-outline-secondary btns"
                                     @click="gotoDetail(post._id)">
                                     <span>Detail</span>
                                 </button>
                             </div>
-                            <small class="text-body-secondary">{{ momentJS(post.createdAt === post.updatedAt ? post.createdAt : post.updatedAt) }}</small>
+                            <small class="text-body-secondary">{{ momentJS(post.createdAt === post.updatedAt ?
+                                post.createdAt : post.updatedAt) }}</small>
                         </div>
                     </div>
                 </div>
@@ -70,10 +71,47 @@ export default {
 }
 </script>
 <style scoped>
+body.dark small,
+body.dark span {
+    color: #fff !important;
+}
+
+.card-b {
+    width: 100%;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.cards {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    gap: 25px;
+    flex-wrap: wrap;
+}
+
+.cardFather {
+    width: 320px;
+    height: auto;
+}
+
+p {
+    margin-bottom: 0;
+}
+
+
 .user {
     display: flex;
     height: 56px;
     padding: 0px 16px;
+    gap: 8px;
     align-items: center;
     cursor: pointer;
 }

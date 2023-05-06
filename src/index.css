@@ -8,6 +8,65 @@
     transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out !important;
 }
 
+body.dark {
+    background-color: #000;
+    color: #fff;
+}
+
+body.dark .header {
+    background-color: #000;
+    color: #fff;
+}
+
+body.dark h2 {
+    color: #fff;
+}
+
+body.dark .card {
+    background-color: #000;
+    color: #fff !important;
+    outline: 1px solid white;
+}
+
+body.dark .drop-menu {
+    background-color: #000;
+    color: #fff !important;
+}
+
+body.dark .drop-menu li {
+    border-bottom: 1px solid #fff;
+}
+
+body.dark .btn{
+    color: #fff;
+}
+
+body.dark .title {
+    color: #fff;
+}
+
+body.dark .form-control {
+    background-color: #000;
+    color: #fff;
+}
+
+body.dark .form-control::placeholder {
+    background-color: #000;
+    color: #fff;
+}
+
+body.dark .navigation {
+    background-color: #000;
+}
+
+
+
+body.dark .navigation li a {
+    color: #fff;
+}
+
+
+
 .btn {
     transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out !important;
 }
@@ -19,4 +78,8 @@
 
 ::-webkit-scrollbar-thumb {
     background-color: #000;
+}
+
+body.dark ::-webkit-scrollbar-thumb {
+    background-color: #fff;
 }

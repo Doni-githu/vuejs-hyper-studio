@@ -32,15 +32,28 @@
                 </ul>
 
                 <div class="text-end">
+                    <template v-if="!active2">
+                        <button class="btn active" @click="toDark">
+                            <i class="fa-solid fa-moon"></i>
+                        </button>
+                    </template>
+                    <template v-else>
+                        <button class="btn active" @click="toLight">
+                            <i class="fa-solid fa-sun"></i>
+                        </button>
+                    </template>
                     <template v-if="!isLoggedIn">
                         <button type="button" class="btn btn-primary me-2" @click="$router.push('/login')">
                             Login
                         </button>
                         <button type="button" class="btn btn-success" @click="$router.push('/register')">Register</button>
                     </template>
+
                     <template v-else>
                         <div class="btn-group">
-                            <img class="img" :src="user?.src" @click="change" />
+                            <div>
+                                <img class="img" :src="user.src" @click="change" />
+                            </div>
                             <ul v-if="active" class="drop-menu">
                                 <li>
                                     <a href="#" class="dropdown-item" @click="PushToProfile">Profile</a>
@@ -60,7 +73,8 @@ import { RouterLink } from "vue-router"
 export default {
     data() {
         return {
-            active: false
+            active: false,
+            active2: false
         }
     },
     computed: {
@@ -73,6 +87,12 @@ export default {
         change() {
             this.active = !this.active
         },
+        isLoggin() {
+            if (localStorage.getItem('token')) {
+                return true
+            }
+            return false
+        },
         logOut() {
             this.$store.commit('LogOut')
             this.active = false
@@ -84,11 +104,28 @@ export default {
             this.$store.dispatch('getProfilePosts', this.user._id)
             this.$router.push(`/profile/${this.user._id}`)
             this.active = false
+        },
+        toDark() {
+            this.active2 = true
+            localStorage.setItem('theme', 'dark')
+            document.body.classList.add('dark')
+            document.body.classList.remove('light')
+        },
+        toLight() {
+            this.active2 = false
+            localStorage.setItem('theme', 'light')
+            document.body.classList.add('light')
+            document.body.classList.remove('dark')
         }
     }
 }
 </script>
 <style scoped>
+.text-end {
+    display: flex;
+    gap: 10px;
+}
+
 .header {
     width: 100%;
     padding-bottom: 0;

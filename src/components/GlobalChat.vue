@@ -55,7 +55,7 @@ export default {
         this.socketInstanse.on(
             'message:received',
             (data) => {
-                this.items = this.items.concat()data
+                this.items = this.items.concat(data)
             }
         )
         this.socketInstanse.on('getAll', (args) => {
@@ -125,6 +125,7 @@ p {
 .logo_user {
     display: flex;
     cursor: pointer;
+    gap: 8px;
     user-select: none;
     align-items: center;
 }
