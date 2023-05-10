@@ -49,7 +49,7 @@
                         <form class="form-comment" @submit.prevent>
                             <Input :label="'Comment...'" @keyup="onComment" v-model="comment" :type="'text'" />
                         </form>
-                        <template v-if="items.length">
+                        <template v-if="isLoading">
                             <div class="out-put">
                                 <div class="out-put-card" v-for="item in items" :key="item._id">
                                     <div class="top">
@@ -144,7 +144,6 @@ export default {
                         }
                     }
                 }
-                console.log(data.comments)
                 this.items = data.comments
             })
         this.socketInstanse.on(
@@ -164,7 +163,8 @@ export default {
     computed: {
         ...mapState({
             post: state => state.post.post,
-            user: state => state.auth.user
+            user: state => state.auth.user,
+            isLoading: state => state.post.isLoading
         })
     },
     data() {
