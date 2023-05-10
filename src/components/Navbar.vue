@@ -12,7 +12,7 @@
                             <i class="fa-solid fa-house"></i>
                         </RouterLink>
                     </li>
-                    <template v-if="isLoggedIn">
+                    <template v-if="isLogginFunction">
                         <li>
                             <RouterLink to="/users">
                                 <i class="fa-solid fa-user"></i>
@@ -87,7 +87,7 @@ export default {
         change() {
             this.active = !this.active
         },
-        isLoggin() {
+        isLogginFunction() {
             if (localStorage.getItem('token')) {
                 return true
             }
@@ -109,12 +109,10 @@ export default {
             this.active2 = true
             localStorage.setItem('theme', 'dark')
             document.body.classList.add('dark')
-            document.body.classList.remove('light')
         },
         toLight() {
             this.active2 = false
             localStorage.setItem('theme', 'light')
-            document.body.classList.add('light')
             document.body.classList.remove('dark')
         }
     }
@@ -222,15 +220,16 @@ h2 {
     border-radius: 50%;
     object-fit: cover;
 }
-@media only screen and (max-width:400px){
-    .nav{
+
+@media only screen and (max-width:400px) {
+    .nav {
         display: flex;
         flex-direction: column;
         gap: 5px;
         height: 100px;
     }
 
-    .container{
+    .container {
         height: 100px;
     }
 }

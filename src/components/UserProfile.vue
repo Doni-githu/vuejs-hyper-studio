@@ -56,7 +56,7 @@
                                                     </button>
                                                     <button type="button"
                                                         class="btn btn-sm btn-outline-danger text-danger btns"
-                                                        @click="deletePost = !deletePost">
+                                                        @click="onDeleteHandler">
                                                         <span>Delete</span>
                                                     </button>
                                                 </template>
@@ -80,7 +80,7 @@
             </div>
         </div>
         <template v-if="deletePost">
-            <Modal />
+            <Modal :closeModal="onDeleteHandler" />
         </template>
     </template>
     <template v-else>
@@ -94,7 +94,6 @@ import { mapState } from "vuex"
 import moment from "moment"
 export default {
     mounted() {
-        console.log('mounted');
         this.$store.dispatch('getProfile', this.$route.params.id)
         this.$store.dispatch('getProfilePosts', this.$route.params.id)
     },
@@ -125,6 +124,9 @@ export default {
         gotoDetail(id) {
             this.$store.dispatch('getById', id)
             this.$router.push(`/detail/${id}`)
+        },
+        onDeleteHandler(){
+            this.deletePost = !this.deletePost
         },
     }
 }

@@ -144,17 +144,15 @@ export default {
                         }
                     }
                 }
+                console.log(data.comments)
+                this.items = data.comments
             })
-        this.socketInstanse.emit('commentGetAll', this.$route.params.id)
         this.socketInstanse.on(
             'comment-message',
             (data) => {
                 this.items = data
             }
         )
-        this.socketInstanse.on('post', (data) => {
-            this.items = data
-        })
         if (localStorage.getItem('commentOrbody') === 'body') {
             this.activeBody = true
             this.activeComment = false

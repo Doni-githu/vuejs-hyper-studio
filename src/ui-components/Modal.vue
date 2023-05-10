@@ -35,6 +35,13 @@ export default {
     margin: 0 auto;
     display: flex;
     flex-direction: column;
+    position: absolute;
+    right: 50%;
+    width: 100%;
+    top: 40%;
+    background-color: #0d0d0d;
+    left: 40%;
+    z-index: 999;
     gap: 50px;
 }
 
