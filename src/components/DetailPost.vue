@@ -133,11 +133,15 @@ export default {
     mounted() {
         this.$store.dispatch('getById', this.$route.params.id)
             .then((data) => {
-                for (let i = 0; i < data.likes.length; i++) {
-                    const element = data.likes[i];
-                    if (element === this.user._id) {
-                        this.active = true
-                        return
+                if (this.user) {
+                    return
+                } else {
+                    for (let i = 0; i < data.likes.length; i++) {
+                        const element = data.likes[i];
+                        if (element === this.user._id) {
+                            this.active = true
+                            return
+                        }
                     }
                 }
             })

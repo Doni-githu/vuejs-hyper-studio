@@ -1,13 +1,15 @@
 <template>
     <div class="users">
         <Input :type="'text'" :label="'Search users'" v-model="term" />
-        <template v-if="this.users.length">
+        <template v-if="users.length">
             <div class="cards_users">
                 <CardUser v-for="user in Term(term.toLowerCase(), users)" :user="user" :key="user.id" />
             </div>
         </template>
         <template v-else>
-            <h1 class="text-center text-danger">No users</h1>
+            <div class="text-center">
+                <Loader />
+            </div>
         </template>
     </div>
 </template>
@@ -20,6 +22,11 @@ export default {
             term: '',
             users: []
         }
+    },
+    computed: {
+        ...mapState({
+            user: state => state.auth.user
+        })
     },
     mounted() {
         this.$store.dispatch('getAllUsers')
@@ -46,11 +53,6 @@ export default {
     components: {
         CardUser
     },
-    computed: {
-        ...mapState({
-            user: state => state.auth.user
-        })
-    }
 }
 </script>
 <style scoped>

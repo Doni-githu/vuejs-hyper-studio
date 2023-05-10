@@ -47,16 +47,19 @@
                                                 @click="gotoDetail(post._id)">
                                                 <span>Detail</span>
                                             </button>
-                                            <template v-if="post.user._id === user._id">
-                                                <button type="button"
-                                                    class="btn btn-sm btn-outline-primary text-primary btns"
-                                                    @click="$router.push(`/editor/${post._id}`)">
-                                                    <span>Edit</span>
-                                                </button>
-                                                <button type="button" class="btn btn-sm btn-outline-danger text-danger btns"
-                                                    @click="$router.push(`/delete/${post._id}`)">
-                                                    <span>Delete</span>
-                                                </button>
+                                            <template v-if="user">
+                                                <template v-if="post.user._id === user._id">
+                                                    <button type="button"
+                                                        class="btn btn-sm btn-outline-primary text-primary btns"
+                                                        @click="$router.push(`/editor/${post._id}`)">
+                                                        <span>Edit</span>
+                                                    </button>
+                                                    <button type="button"
+                                                        class="btn btn-sm btn-outline-danger text-danger btns"
+                                                        @click="deletePost = !deletePost">
+                                                        <span>Delete</span>
+                                                    </button>
+                                                </template>
                                             </template>
                                         </div>
                                         <small class="text-body-secondary">{{ momentJS(post.createdAt === post.updatedAt ?
@@ -76,6 +79,9 @@
                 </template>
             </div>
         </div>
+        <template v-if="deletePost">
+            <Modal />
+        </template>
     </template>
     <template v-else>
         <div class="text-center">
@@ -103,6 +109,7 @@ export default {
     data() {
         return {
             action: true,
+            deletePost: false
         }
     },
     methods: {
@@ -336,8 +343,8 @@ p {
     }
 }
 
-@media only screen and (max-width:333px){
-    .cardFather{
+@media only screen and (max-width:333px) {
+    .cardFather {
         width: 290px;
     }
 }
@@ -350,23 +357,23 @@ p {
     }
 }
 
-@media only screen and (max-width:470px){
+@media only screen and (max-width:470px) {
     .profile {
         width: 100%;
         margin: 0 auto;
     }
 
-    .cards{
+    .cards {
         width: 100%;
     }
 }
 
-@media only screen and (max-width:344px){
-    .grid{
+@media only screen and (max-width:344px) {
+    .grid {
         width: 150px;
     }
 
-    .grid p:last-child{
+    .grid p:last-child {
         width: 150px;
         white-space: nowrap;
         text-overflow: ellipsis;
