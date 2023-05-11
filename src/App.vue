@@ -1,6 +1,5 @@
 <template>
   <Navbar />
-
   <div class="container mb-10rem">
     <RouterView />
   </div>

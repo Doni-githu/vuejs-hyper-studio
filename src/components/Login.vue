@@ -5,6 +5,9 @@
             <template v-if="error">
                 <Error :error="error" :closeHandler="closeHandler" />
             </template>
+            <template v-if="success">
+                <Success :message="success" />
+            </template>
             <Input :label="'Email'" :type="'email'" v-model="email" />
             <Input :label="'Password'" :type="'password'" v-model="password" />
             <button @click="LoginHandler" class="btn btn-primary" :disabled="isLoading">
@@ -20,7 +23,8 @@ export default {
         return {
             email: '',
             password: '',
-            error: null
+            error: null,
+            success: ''
         }
     },
     methods: {
@@ -37,6 +41,9 @@ export default {
             this.$store.dispatch('login', newObject)
                 .then((res) => {
                     this.$router.push('/')
+                    if (res) {
+                        this.success = res
+                    }
                 })
                 .catch((err) => {
                     this.error = err.message
@@ -73,8 +80,8 @@ export default {
     gap: 20px;
 }
 
-@media only screen and (max-width:470px){
-    .login form{
+@media only screen and (max-width:470px) {
+    .login form {
         width: 98%;
     }
 }

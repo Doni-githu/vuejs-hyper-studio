@@ -53,7 +53,6 @@ export default {
                 .then((res) => {
                     this.success = res.messsage
                 }).catch((err) => {
-                    console.log(err)
                     this.error = err.data?.message
                 })
         },
