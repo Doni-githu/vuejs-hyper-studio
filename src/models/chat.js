@@ -47,7 +47,6 @@ const actions = {
             context.commit('StartOnlyChat')
             Chat.genChat(data)
                 .then((res) => {
-                    console.log(res.data.messages);
                     context.commit('SuccessOnlyChat', res.data.messages)
                     resolve(res.data.messages)
                 }).catch((err) => {
@@ -60,7 +59,6 @@ const actions = {
             context.commit('StartOnlyChat')
             Chat.getChat(id)
                 .then((res) => {
-                    console.log(res.data.messages);
                     context.commit('SuccessOnlyChat', res.data.messages)
                     resolve(res.data.messages)
                 }).catch((err) => {

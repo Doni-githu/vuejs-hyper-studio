@@ -66,7 +66,6 @@ const actions = {
                     console.log(res.data)
                     resolve()
                 }).catch((err) => {
-                    console.log(err)
                     context.commit('SuccessSendPost')
                 })
         })
@@ -102,7 +101,6 @@ const actions = {
                 .then((res) => {
                     context.commit('SuccessGetProfilePosts', res.data)
                 }).catch((error) => {
-                    console.log(error)
                     context.commit('FailurGetAllPosts')
                 })
         })
@@ -127,7 +125,6 @@ const actions = {
                     context.commit('SuccessSendPost')
                     resolve(res.data)
                 }).catch((err) => {
-                    console.log(err);
                     context.commit('SuccessSendPost')
                 })
         })

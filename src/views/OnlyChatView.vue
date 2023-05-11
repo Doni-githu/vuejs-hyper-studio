@@ -72,7 +72,6 @@ export default {
         this.socketInstanse = io('http://localhost:3000')
         this.$store.dispatch('getChat', localStorage.getItem('chat'))
             .then((response) => {
-                console.log(response)
                 this.items = response.messages
             })
 

@@ -123,7 +123,6 @@ const actions = {
                     localStorage.setItem('token', `Token ${res.data.user.token}`)
                     resolve(res.data.user)
                 }).catch((err) => {
-                    console.log(err)
                     context.commit('FailurRegister', err.response)
                     reject()
                 })
