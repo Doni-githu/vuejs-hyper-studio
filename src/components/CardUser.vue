@@ -1,9 +1,10 @@
 <template>
-    <div class="card_users">
-        <div class="src" :style="`background-image: url(${user.src})`" style="background-position: center; background-size: cover; border-radius: 5px;" >
+    <div class="card_users" @click="clickToChat(user._id)">
+        <div class="src" :style="`background-image: url(${user.src})`"
+            style="background-position: center; background-size: cover; border-radius: 5px;">
 
         </div>
-        <div class="card_users_name" @click="$router.push(`/profile/${user._id}`)">{{ user.username }}</div>
+        <div class="card_users_name">{{ user.username }}</div>
     </div>
 </template>
 <script>
@@ -12,8 +13,19 @@ export default {
         user: {
             type: Object,
             required: true
+        },
+        owner: {
+            type: Object,
+            required: true
         }
     },
+    methods: {
+        async clickToChat(id) {
+            const res = await this.$store.dispatch('onlyChat', { first: id, second: this.owner._id })
+            localStorage.setItem('chat', res._id)
+            this.$router.push(`/only-chat`)
+        }
+    }
 }
 </script>
 <style scoped>

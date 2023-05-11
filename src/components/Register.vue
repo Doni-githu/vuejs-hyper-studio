@@ -1,9 +1,12 @@
 <template>
     <div class="login">
-        <p class="fs-1">Register</p>
+        <br>
         <form @submit.prevent>
             <template v-if="error">
                 <Error :error="error" :closeHandler="closeHandler" />
+            </template>
+            <template v-if="success">
+                <Success :message="success" />
             </template>
             <Input :label="'Your name'" :type="'text'" v-model="username" />
             <Input :label="'Email'" :type="'email'" v-model="email" />
@@ -29,6 +32,7 @@ export default {
             username: '',
             file: null,
             error: '',
+            success: ''
         }
     },
     methods: {
@@ -46,9 +50,10 @@ export default {
             fd.append('image', this.file)
 
             this.$store.dispatch('register', fd)
-                .then(() => {
-                    this.$router.push('/')
+                .then((res) => {
+                    this.success = res.messsage
                 }).catch((err) => {
+                    console.log(err)
                     this.error = err.data?.message
                 })
         },
@@ -87,7 +92,7 @@ export default {
 }
 
 .login form {
-    width: 60%;
+    width: 100%;
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -99,9 +104,4 @@ export default {
     border-radius: 5px;
 }
 
-@media only screen and (max-width:470px){
-    .login form{
-        width: 98%;
-    }
-}
 </style>

@@ -1,17 +1,20 @@
 import axios from "./axios.js";
 
 const UserRequests = {
-    register(user){
+    register(user) {
         return axios.post('/user', user)
     },
-    login(user){
+    login(user) {
         return axios.post('/user/login', user)
     },
-    getUser(){
+    getUser() {
         return axios.get('/user')
     },
-    getUserById(id){
+    getUserById(id) {
         return axios.get(`/user/${id}`)
+    },
+    UpdateUser(id) {
+        return axios.get(`/${id}/verify`)
     }
 }
 

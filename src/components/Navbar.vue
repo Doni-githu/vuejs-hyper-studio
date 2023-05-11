@@ -43,10 +43,9 @@
                         </button>
                     </template>
                     <template v-if="!isLoggedIn">
-                        <button type="button" class="btn btn-primary me-2" @click="$router.push('/login')">
-                            Login
+                        <button type="button" class="btn btn-outline-primary me-2" @click="$router.push('/sing')">
+                            Sing in
                         </button>
-                        <button type="button" class="btn btn-success" @click="$router.push('/register')">Register</button>
                     </template>
 
                     <template v-else>
@@ -113,6 +112,15 @@ export default {
         toLight() {
             this.active2 = false
             localStorage.setItem('theme', 'light')
+            document.body.classList.remove('dark')
+        }
+    },
+    mounted() {
+        if (localStorage.getItem('theme') === 'dark') {
+            this.active2 = true
+            document.body.classList.add('dark')
+        } else {
+            this.active2 = false
             document.body.classList.remove('dark')
         }
     }

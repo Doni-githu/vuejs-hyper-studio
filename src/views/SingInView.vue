@@ -1,13 +1,13 @@
 <template>
     <div>
-        <Delete />
+        <SingIn />
     </div>
 </template>
 <script>
-import Delete from '../components/Delete.vue';
+import SingIn from '../components/SingIn.vue';
 
 export default {
-    components: { Delete }
+    components: { SingIn }
 }
 </script>
 <style>

@@ -1,13 +1,13 @@
 <template>
     <div>
-        <Register />
+        <Verify />
     </div>
 </template>
 <script>
-import Register from '../components/Register.vue';
+import Verify from '../components/Verify.vue';
 
 export default {
-    components: { Register }
+    components: { Verify }
 }
 </script>
 <style>

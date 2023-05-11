@@ -1,20 +1,35 @@
 <template>
-    <div class="global">
-        <div class="out-put">
-            <div :class="`out-put-card ${item.user._id === user._id ? 'right' : 'left'}`" v-for="item in items"
-                :key="item.id">
-                <div class="logo_user" @click="this.$router.push(`/profile/${item.user._id}`)">
-                    <img class="logo" :src="item.user.src">
-                    <b>{{ item.user.username }}</b>
+    <template v-if="messages">
+        <div class="global">
+            <div class="d-flex justify-content-between">
+                <div>
+                    <strong>{{ messages.firstUser.username }}</strong>
                 </div>
-                <p>{{ item.message }}</p>
-                <small class="opacity">{{ momentJS(item.createdAt) }}</small>
+                <div>
+                    <strong>{{ messages.secondUser.username }}</strong>
+                </div>
             </div>
+            <div class="out-put">
+                <div :class="`out-put-card ${item?.user?._id === user?._id ? 'right' : 'left'}`" v-for="item in items"
+                    :key="item.id">
+                    <div class="logo_user" @click="this.$router.push(`/profile/${item.user._id}`)">
+                        <img class="logo" :src="item?.user.src">
+                        <b>{{ item?.user.username }}</b>
+                    </div>
+                    <p>{{ item.message }}</p>
+                    <small class="opacity">{{ momentJS(item.createdAt) }}</small>
+                </div>
+            </div>
+            <form @submit.prevent>
+                <TextArea :label="'Your message'" v-model="message" @keydown.enter="sendMessage" />
+            </form>
         </div>
-        <form @submit.prevent>
-            <TextArea :label="'Your message'" v-model="message" @keydown.enter="sendMessage" />
-        </form>
-    </div>
+    </template>
+    <template>
+        <div class="text-center">
+            <Loader />
+        </div>
+    </template>
 </template>
 <script>
 import { mapState } from "vuex";
@@ -25,12 +40,14 @@ export default {
         return {
             items: [],
             error: '',
-            message: ''
+            message: '',
+            writer: null,
         }
     },
     computed: {
         ...mapState({
-            user: state => state.auth.user
+            user: state => state.auth.user,
+            messages: state => state.chat.messages
         })
     },
     methods: {
@@ -41,25 +58,26 @@ export default {
             const message = {
                 message: this.message,
                 user: this.user,
+                chatId: localStorage.getItem('chat'),
             }
-            this.items = this.items.concat(message)
-            this.socketInstanse.emit('message', message)
+            this.items.push(message)
+            this.socketInstanse.emit('join-message', message)
             this.message = ''
         },
         momentJS(date) {
             return moment(date).fromNow()
         }
     },
-    mounted() {
+    created() {
         this.socketInstanse = io('http://localhost:3000')
-        this.socketInstanse.on(
-            'message:received',
-            (data) => {
-                this.items = this.items.concat(data)
-            }
-        )
-        this.socketInstanse.on('getAll', (args) => {
-            this.items = args
+        this.$store.dispatch('getChat', localStorage.getItem('chat'))
+            .then((response) => {
+                console.log(response)
+                this.items = response.messages
+            })
+
+        this.socketInstanse.on('post2', ({ messages }) => {
+            this.items = messages
         })
     },
 }
@@ -147,14 +165,15 @@ p {
         margin-left: 30rem !important;
     }
 }
-@media only screen and (max-width:1000px){
-    .out-put-card.right{
+
+@media only screen and (max-width:1000px) {
+    .out-put-card.right {
         margin-left: 1rem !important;
     }
 }
 
-@media only screen and (max-width:500px){
-    .global{
+@media only screen and (max-width:500px) {
+    .global {
         width: 100%;
     }
 }

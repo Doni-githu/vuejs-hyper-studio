@@ -2,7 +2,8 @@ import Chat from "../server/chat"
 
 const state = {
     isLoading: false,
-    users: null
+    users: null,
+    messages: null
 }
 
 const mutations = {
@@ -10,17 +11,25 @@ const mutations = {
         state.users = null
         state.isLoading = true
     },
-    SuccessGetAllUsers(state, payload){
+    SuccessGetAllUsers(state, payload) {
         state.users = payload
         state.isLoading = false
     },
-    FailurGetAllUsers(state){
+    FailurGetAllUsers(state) {
         state.isLoading = false
-    }
+    },
+    StartOnlyChat(state) {
+        state.isLoading = true
+        state.messages = null
+    },
+    SuccessOnlyChat(state, payload) {
+        state.isLoading = false
+        state.messages = payload
+    },
 }
 
 const actions = {
-    getAllUsers(context){
+    getAllUsers(context) {
         return new Promise((resolve) => {
             context.commit('StartGetAllUsers')
             Chat.getUsers()
@@ -29,6 +38,33 @@ const actions = {
                     context.commit('SuccessGetAllUsers', res.data.users)
                 }).catch((err) => {
                     console.log(err)
+                    context.commit('FailurGetAllUsers')
+                })
+        })
+    },
+    onlyChat(context, data) {
+        return new Promise((resolve) => {
+            context.commit('StartOnlyChat')
+            Chat.genChat(data)
+                .then((res) => {
+                    console.log(res.data.messages);
+                    context.commit('SuccessOnlyChat', res.data.messages)
+                    resolve(res.data.messages)
+                }).catch((err) => {
+                    context.commit('FailurGetAllUsers')
+                })
+        })
+    },
+    getChat(context, id) {
+        return new Promise((resolve) => {
+            context.commit('StartOnlyChat')
+            Chat.getChat(id)
+                .then((res) => {
+                    console.log(res.data.messages);
+                    context.commit('SuccessOnlyChat', res.data.messages)
+                    resolve(res.data.messages)
+                }).catch((err) => {
+                    context.commit('FailurGetAllUsers')
                 })
         })
     }

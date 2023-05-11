@@ -3,7 +3,7 @@
         <Input :type="'text'" :label="'Search users'" v-model="term" />
         <template v-if="users.length">
             <div class="cards_users">
-                <CardUser v-for="user in Term(term.toLowerCase(), users)" :user="user" :key="user.id" />
+                <CardUser v-for="user in Term(term.toLowerCase(), users)" :user="user" :owner="user2" :key="user.id" />
             </div>
         </template>
         <template v-else>
@@ -25,20 +25,22 @@ export default {
     },
     computed: {
         ...mapState({
-            user: state => state.auth.user
+            user2: state => state.auth.user
         })
     },
     mounted() {
         this.$store.dispatch('getAllUsers')
             .then((res) => {
-                const Filter = []
-                for (let i = 0; i < res.length; i++) {
-                    const element = res[i];
-                    if (element._id !== this.user._id) {
-                        Filter.push(element)
+                if (this.user2 !== null) {
+                    const Filter = []
+                    for (let i = 0; i < res.length; i++) {
+                        const element = res[i];
+                        if (element._id !== this.user2._id) {
+                            Filter.push(element)
+                        }
                     }
+                    this.users = Filter
                 }
-                this.users = Filter
             })
     },
     methods: {
@@ -63,8 +65,16 @@ export default {
 }
 
 .users {
+    width: 80%;
+    margin: 0 auto;
     display: flex;
     flex-direction: column;
     gap: 20px;
+}
+
+@media only screen and (max-width:424px) {
+    .users {
+        width: 98%;
+    }
 }
 </style>

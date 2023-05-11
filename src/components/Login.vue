@@ -1,6 +1,6 @@
 <template>
     <div class="login">
-        <p class="fs-1">Login</p>
+        <br>
         <form @submit.prevent>
             <template v-if="error">
                 <Error :error="error" :closeHandler="closeHandler" />
@@ -67,7 +67,7 @@ export default {
 }
 
 .login form {
-    width: 60%;
+    width: 100%;
     display: flex;
     flex-direction: column;
     gap: 20px;

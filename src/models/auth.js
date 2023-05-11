@@ -58,7 +58,10 @@ const mutations = {
     },
     ClearProfile(state) {
         state.profile = null
-    }
+    },
+    StopRegister(state) {
+        state.isLoading = false
+    },
 }
 
 const actions = {
@@ -103,15 +106,29 @@ const actions = {
             context.commit('StartRegister')
             UserRequests.register(user)
                 .then((res) => {
-                    localStorage.setItem('token', `Token ${res.data.user.token}`)
-                    context.commit('SuccessRegister', res.data.user)
-                    resolve()
+                    resolve(res.data)
+                    context.commit('StopRegister')
                 }).catch((err) => {
                     reject(err.response)
                     context.commit('FailurRegister', err.response)
                 })
         })
     },
+    updateUser(context, id) {
+        return new Promise((resolve, reject) => {
+            context.commit('StartRegister')
+            UserRequests.UpdateUser(id)
+                .then((res) => {
+                    context.commit('SuccessLogin', res.data.user.response)
+                    localStorage.setItem('token', `Token ${res.data.user.token}`)
+                    resolve(res.data.user)
+                }).catch((err) => {
+                    console.log(err)
+                    context.commit('FailurRegister', err.response)
+                    reject()
+                })
+        })
+    }
 }
 
 export default {

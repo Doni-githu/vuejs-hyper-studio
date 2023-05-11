@@ -14,11 +14,6 @@ export default {
     if (localStorage.getItem('token')) {
       this.$store.dispatch('getUser')
     }
-    if (localStorage.getItem('theme') === 'dark') {
-      document.body.classList.add('dark')
-    } else {
-      document.body.classList.remove('dark')
-    }
   },
   provide: {
     msg: 'Hello World'

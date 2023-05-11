@@ -128,7 +128,7 @@ import io from "socket.io-client"
 import moment from 'moment';
 export default {
     beforeMount() {
-        this.socketInstanse = io('https://nodejs-backend-application.onrender.com')
+        this.socketInstanse = io('http://localhost:3000')
     },
     mounted() {
         this.$store.dispatch('getById', this.$route.params.id)

@@ -94,6 +94,9 @@ import { mapState } from "vuex"
 import moment from "moment"
 export default {
     mounted() {
+        if(!localStorage.getItem('token')){
+            this.$router.push('/login')
+        }
         this.$store.dispatch('getProfile', this.$route.params.id)
         this.$store.dispatch('getProfilePosts', this.$route.params.id)
     },

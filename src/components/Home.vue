@@ -37,7 +37,7 @@
                                             <span>Edit</span>
                                         </button>
                                         <button type="button" class="btn btn-sm btn-outline-danger text-danger btns"
-                                            @click="$router.push(`/delete/${post._id}`)">
+                                            @click="">
                                             <span>Delete</span>
                                         </button>
                                     </template>
@@ -50,6 +50,9 @@
                 </div>
             </div>
         </div>
+        <template v-if="deletePost">
+            <Modal :closeModal="onDeleteHandler" />
+        </template>
     </template>
     <template v-else>
         <div class="text-center">
@@ -71,6 +74,11 @@ export default {
             user: state => state.auth.user
         })
     },
+    data() {
+        return {
+            deletePost: false
+        }
+    },
     methods: {
         momentJS(date) {
             return moment(date).fromNow()
@@ -81,7 +89,10 @@ export default {
         gotoDetail(id) {
             this.$store.dispatch('getById', id)
             this.$router.push(`/detail/${id}`)
-        }
+        },
+        onDeleteHandler(){
+            this.deletePost = !this.deletePost
+        },
     }
 }
 </script>
