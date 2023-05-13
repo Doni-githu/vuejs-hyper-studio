@@ -71,6 +71,11 @@ const actions = {
             UserRequests.login(user)
                 .then((res) => {
                     console.log(res)
+                    if(res.data.user.verified){
+                        context.commit('SuccessRegister', res.data.user)
+                        localStorage.setItem('token', `Token ${res.data.user.token}`)
+                        resolve(res.data)
+                    }
                     context.commit('StopRegister')
                     resolve(res.data)
                 }).catch((err) => {
