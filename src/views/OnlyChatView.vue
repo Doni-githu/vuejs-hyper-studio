@@ -69,7 +69,7 @@ export default {
         }
     },
     created() {
-        this.socketInstanse = io('http://localhost:3000')
+        this.socketInstanse = io('https://nodejs-backend-application.onrender.com')
         this.$store.dispatch('getChat', localStorage.getItem('chat'))
             .then((response) => {
                 this.items = response.messages

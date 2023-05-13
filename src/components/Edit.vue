@@ -7,7 +7,7 @@
             </template>
             <Input :label="'Title'" :type="'text'" maxlength="100" v-model="title" />
             <TextArea :label="'Body'" v-model="body" />
-            <div class="text-start flex">
+            <div class="text-start flex" v-if="activeType">
                 <div class="form-check">
                     <input class="form-check-input" @click="change" type="radio" name="exampleRadios" id="exampleRadios1"
                         value="img">
@@ -23,7 +23,11 @@
                     </label>
                 </div>
             </div>
-            <template v-if="type">
+            <template v-else>
+                <p class="fs-3" style="cursor: pointer; user-select: none;" @click="activeType = true">I would like change
+                    my type</p>
+            </template>
+            <template v-if="activeType">
                 <div class="file">
                     <input type="file" @change="ChangeFile" id="image" style="display: none;">
                     <label for="image">{{ upperCase(type) }}</label>
@@ -46,6 +50,7 @@ export default {
             type: this.fields.type,
             file: '',
             error: '',
+            activeType: false
         }
     },
     props: {
@@ -79,7 +84,7 @@ export default {
             }
         },
         SenderPost() {
-            if (!this.title || !this.body || !this.file || !this.type) {
+            if (!this.title || !this.body) {
                 this.error = 'All fields are required'
                 return
             }
@@ -87,8 +92,12 @@ export default {
 
             fd.append('title', this.title)
             fd.append('body', this.body)
-            fd.append('image', this.file)
-            fd.append('type', this.type)
+            if (this.file !== 0) {
+                fd.append('image', this.file)
+            }
+            if (this.type !== 0) {
+                fd.append('type', this.type)
+            }
             fd.append('id', this.$route.params.id)
             this.$store.dispatch('editPost', fd)
                 .then(() => {
@@ -130,8 +139,9 @@ export default {
     flex-direction: column;
     gap: 20px;
 }
-@media only screen and (max-width:769px){
-    .form2{
+
+@media only screen and (max-width:769px) {
+    .form2 {
         width: 100%;
     }
 }

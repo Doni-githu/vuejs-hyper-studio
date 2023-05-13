@@ -40,7 +40,7 @@ const router = createRouter({
       component: DetailPostView
     },
     {
-      path: '/users/:id/verify',
+      path: '/users/:id',
       name: 'verify',
       component: VerifyView,
     },

@@ -51,7 +51,7 @@ export default {
         }
     },
     mounted() {
-        this.socketInstanse = io('http://localhost:3000')
+        this.socketInstanse = io('https://nodejs-backend-application.onrender.com')
         this.socketInstanse.on(
             'message:received',
             (data) => {

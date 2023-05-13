@@ -1,7 +1,7 @@
 <template>
     <div class="users">
         <Input :type="'text'" :label="'Search users'" v-model="term" />
-        <template v-if="users.length">
+        <template v-if="users">
             <div class="cards_users">
                 <CardUser v-for="user in Term(term.toLowerCase(), users)" :user="user" :owner="user2" :key="user.id" />
             </div>
@@ -20,7 +20,7 @@ export default {
     data() {
         return {
             term: '',
-            users: []
+            users: null,
         }
     },
     computed: {

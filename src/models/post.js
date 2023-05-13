@@ -54,6 +54,9 @@ const mutations = {
     SuccessLikeAndUnlikeOrFailur(state) {
         state.isLoading = false
     },
+    SyncDelete(state, id) {
+        state.posts = state.posts.filter(c => c._id !== id)
+    }
 }
 
 const actions = {
@@ -112,7 +115,8 @@ const actions = {
                 .then(() => {
                     context.commit('SuccessSendPost')
                     resolve()
-                }).catch(() => {
+                }).catch((error) => {
+                    console.log(error)
                     context.commit('FailurSendPost')
                 })
         })

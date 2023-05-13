@@ -14,6 +14,7 @@
                 {{ isLoading ? 'Loading...' : 'Login' }}
             </button>
         </form>
+        <br>
     </div>
 </template>
 <script>
@@ -21,37 +22,35 @@ import { mapState } from "vuex"
 export default {
     data() {
         return {
-            email: '',
-            password: '',
+            email: "",
+            password: "",
             error: null,
-            success: ''
-        }
+            success: ""
+        };
     },
     methods: {
         LoginHandler() {
             if (!this.email || !this.password) {
-                this.error = 'All fields are required'
-                return
+                this.error = "All fields are required";
+                return;
             }
-
             const newObject = {
                 email: this.email,
                 password: this.password
-            }
-            this.$store.dispatch('login', newObject)
+            };
+            this.$store.dispatch("login", newObject)
                 .then((res) => {
-                    this.$router.push('/')
-                    if (res) {
-                        this.success = res
+                    if (res.message && !res.verified) {
+                        this.success = res.message;
                     }
                 })
                 .catch((err) => {
-                    this.error = err.message
-                })
+                    this.error = err.message;
+                });
         },
         closeHandler() {
-            this.error = null
-        }
+            this.error = null;
+        },
     },
     computed: {
         ...mapState({
@@ -59,8 +58,8 @@ export default {
         })
     },
     mounted() {
-        if (localStorage.getItem('token')) {
-            this.$router.push('/')
+        if (localStorage.getItem("token")) {
+            this.$router.push("/");
         }
     },
 }

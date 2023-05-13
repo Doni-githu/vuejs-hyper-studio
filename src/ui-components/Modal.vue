@@ -17,15 +17,18 @@ export default {
         closeModal: {
             type: Function,
             required: true
+        },
+        id: {
+            type: String,
+            required: true
         }
     },
     name: 'Modal',
     methods: {
-        onDelete() {
-            this.$store.dispatch("deletePost", this.$route.params.id)
-                .then(() => {
-                    this.closeModal()
-                })
+        async onDelete() {
+            this.$store.commit('SyncDelete', this.id)
+            await this.$store.dispatch("deletePost", this.id)
+            this.closeModal()
         }
     }
 }
@@ -37,10 +40,11 @@ export default {
     flex-direction: column;
     position: absolute;
     right: 50%;
-    width: 100%;
+    width: 320px;
     top: 40%;
     background-color: #0d0d0d;
     left: 40%;
+    padding: 15px;
     z-index: 999;
     gap: 50px;
 }

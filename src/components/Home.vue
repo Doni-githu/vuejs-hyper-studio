@@ -37,7 +37,7 @@
                                             <span>Edit</span>
                                         </button>
                                         <button type="button" class="btn btn-sm btn-outline-danger text-danger btns"
-                                            @click="">
+                                            @click="onDeleteHandler(post._id)">
                                             <span>Delete</span>
                                         </button>
                                     </template>
@@ -51,7 +51,7 @@
             </div>
         </div>
         <template v-if="deletePost">
-            <Modal :closeModal="onDeleteHandler" />
+            <Modal :closeModal="closeModal" :id="id" />
         </template>
     </template>
     <template v-else>
@@ -64,8 +64,8 @@
 import moment from "moment"
 import { mapState } from 'vuex';
 export default {
-    mounted() {
-        this.$store.dispatch('getAll')
+    async mounted() {
+        await this.$store.dispatch('getAll')
     },
     computed: {
         ...mapState({
@@ -76,7 +76,8 @@ export default {
     },
     data() {
         return {
-            deletePost: false
+            deletePost: false,
+            id: ''
         }
     },
     methods: {
@@ -90,8 +91,12 @@ export default {
             this.$store.dispatch('getById', id)
             this.$router.push(`/detail/${id}`)
         },
-        onDeleteHandler(){
-            this.deletePost = !this.deletePost
+        onDeleteHandler(id) {
+            this.id = id
+            this.deletePost = true
+        },
+        closeModal() {
+            this.deletePost = false
         },
     }
 }

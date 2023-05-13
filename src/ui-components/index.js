@@ -4,4 +4,5 @@ import TextArea from "./TextArea.vue"
 import Loader from "./Loader.vue"
 import Modal from "./Modal.vue"
 import Success from "./Success.vue"
-export default [Input, Error, TextArea, Loader, Modal, Success]
+import Button from "./Button.vue"
+export default [Input, Error, TextArea, Loader, Modal, Success, Button]

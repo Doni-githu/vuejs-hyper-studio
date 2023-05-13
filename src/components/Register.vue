@@ -68,6 +68,12 @@ export default {
         },
         closeHandler() {
             this.error = null
+        },
+        GoogleConfim() {
+            window.open(
+                'http://localhost:3000/api/google/callback',
+                '_self'
+            )
         }
     },
     mounted() {
@@ -102,5 +108,4 @@ export default {
     padding: 10px 15px;
     border-radius: 5px;
 }
-
 </style>

@@ -12,7 +12,7 @@
                             <i class="fa-solid fa-house"></i>
                         </RouterLink>
                     </li>
-                    <template v-if="isLogginFunction">
+                    <template v-if="isLogginFunction() === true">
                         <li>
                             <RouterLink to="/users">
                                 <i class="fa-solid fa-user"></i>

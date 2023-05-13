@@ -7,6 +7,7 @@
 <script>
 import { RouterView } from "vue-router"
 import Navbar from "./components/Navbar.vue";
+import io from "socket.io-client"
 export default {
   components: { Navbar },
   mounted() {

@@ -70,9 +70,9 @@ const actions = {
             context.commit('StartLogin')
             UserRequests.login(user)
                 .then((res) => {
-                    context.commit('SuccessLogin', res.data.user)
-                    localStorage.setItem('token', `Token ${res.data.user.token}`)
-                    resolve(res.data?.message)
+                    console.log(res)
+                    context.commit('StopRegister')
+                    resolve(res.data)
                 }).catch((err) => {
                     context.commit('FailurLogin', err.response.data)
                     reject(err.response.data)
