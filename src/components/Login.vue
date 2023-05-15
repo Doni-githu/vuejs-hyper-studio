@@ -8,11 +8,19 @@
             <template v-if="success">
                 <Success :message="success" />
             </template>
-            <Input :label="'Email'" :type="'email'" v-model="email" />
-            <Input :label="'Password'" :type="'password'" v-model="password" />
-            <button @click="LoginHandler" class="btn btn-primary" :disabled="isLoading">
-                {{ isLoading ? 'Loading...' : 'Login' }}
-            </button>
+            <template v-if="!code">
+                <Input :label="'Email'" :type="'email'" v-model="email" />
+                <Input :label="'Password'" :type="'password'" v-model="password" />
+                <button @click="LoginHandler" class="btn btn-primary" :disabled="isLoading">
+                    {{ isLoading ? 'Loading...' : 'Login' }}
+                </button>
+            </template>
+            <template v-else>
+                <Input :label="'Write code'" :type="'text'" maxlength="5" v-model="writedCode" />
+                <button @click="GetUser" class="btn btn-primary">
+                    Code
+                </button>
+            </template>
         </form>
         <br>
     </div>
@@ -25,7 +33,10 @@ export default {
             email: "",
             password: "",
             error: null,
-            success: ""
+            success: "",
+            code: null,
+            writedCode: '',
+            id: null
         };
     },
     methods: {
@@ -42,11 +53,30 @@ export default {
                 .then((res) => {
                     if (res.message && !res.verified) {
                         this.success = res.message;
+                        this.code = res.code
+                        this.id = res.id
+                    } else {
+                        this.$router.push(`/`)
                     }
                 })
                 .catch((err) => {
-                    this.error = err.message;
+                    if (err.message) {
+                        this.error = err.message;
+                        return
+                    }
+                    this.error = 'Something went wrong'
                 });
+        },
+        async GetUser() {
+            if (parseInt(this.writedCode) !== parseInt(this.code)) {
+                this.error = 'Write right code'
+                console.log(this.writedCode);
+                return
+            }
+            this.$store.dispatch('updateUser', this.id)
+                .then(() => {
+                    this.$router.push(`/profile/${this.id}`)
+                })
         },
         closeHandler() {
             this.error = null;

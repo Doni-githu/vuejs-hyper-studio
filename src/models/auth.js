@@ -70,14 +70,15 @@ const actions = {
             context.commit('StartLogin')
             UserRequests.login(user)
                 .then((res) => {
-                    console.log(res)
-                    if(res.data.user.verified){
+                    if (res.data.user) {
                         context.commit('SuccessRegister', res.data.user)
                         localStorage.setItem('token', `Token ${res.data.user.token}`)
                         resolve(res.data)
+                    } else {
+                        console.log(res.data)
+                        context.commit('StopRegister')
+                        resolve(res.data)
                     }
-                    context.commit('StopRegister')
-                    resolve(res.data)
                 }).catch((err) => {
                     context.commit('FailurLogin', err.response.data)
                     reject(err.response.data)

@@ -73,7 +73,7 @@
                 <template v-else>
                     <div class="d-flex justify-content-center flex-column align-items-center">
                         <p class="fs-1 text-danger">no posts</p>
-                        <button v-show="profile._id === user._id" class="btn btn-outline-success"
+                        <button v-if="profile._id === user._id" class="btn btn-outline-success"
                             @click="this.$router.push('/add')">create post</button>
                     </div>
                 </template>
@@ -94,11 +94,16 @@ import { mapState } from "vuex"
 import moment from "moment"
 export default {
     mounted() {
-        if(!localStorage.getItem('token')){
-            this.$router.push('/login')
+        if (!localStorage.getItem('token')) {
+            this.$router.push('/sing')
         }
         this.$store.dispatch('getProfile', this.$route.params.id)
         this.$store.dispatch('getProfilePosts', this.$route.params.id)
+    },
+    created() {
+        if (!localStorage.getItem('token')) {
+            this.$router.push('/sing')
+        }
     },
     computed: {
         ...mapState({
@@ -128,10 +133,10 @@ export default {
             this.$store.dispatch('getById', id)
             this.$router.push(`/detail/${id}`)
         },
-        onDeleteHandler(){
+        onDeleteHandler() {
             this.deletePost = !this.deletePost
         },
-    }
+    },
 }
 </script>
 <style scoped>

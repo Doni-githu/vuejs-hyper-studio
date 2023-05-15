@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { HomeView, UserProfileView, UsersView, AddNewPostView, DetailPostView, ChatView, EditView, VerifyView, SingView, OnlyChatView } from '../views/'
+import { HomeView, UserProfileView, UsersView, AddNewPostView, DetailPostView, ChatView, EditView, SingView, OnlyChatView } from '../views/'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -38,11 +38,6 @@ const router = createRouter({
       path: '/detail/:id',
       name: 'detail',
       component: DetailPostView
-    },
-    {
-      path: '/users/:id',
-      name: 'verify',
-      component: VerifyView,
     },
     {
       path: '/editor/:id',

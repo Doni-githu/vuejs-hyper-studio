@@ -8,16 +8,24 @@
             <template v-if="success">
                 <Success :message="success" />
             </template>
-            <Input :label="'Your name'" :type="'text'" v-model="username" />
-            <Input :label="'Email'" :type="'email'" v-model="email" />
-            <Input :label="'Password'" :type="'password'" v-model="password" />
-            <div class="file">
-                <input type="file" @change="ChangeFile" id="image" style="display: none;">
-                <label for="image">Image</label>
-            </div>
-            <button @click="LoginHandler" class="btn btn-primary" :disabled="isLoading">
-                {{ isLoading ? 'Loading...' : 'Register' }}
-            </button>
+            <template v-if="!code">
+                <Input :label="'Your name'" :type="'text'" v-model="username" />
+                <Input :label="'Email'" :type="'email'" v-model="email" />
+                <Input :label="'Password'" :type="'password'" v-model="password" />
+                <div class="file">
+                    <input type="file" @change="ChangeFile" id="image" style="display: none;">
+                    <label for="image">Image</label>
+                </div>
+                <button @click="LoginHandler" class="btn btn-primary" :disabled="isLoading">
+                    {{ isLoading ? 'Loading...' : 'Register' }}
+                </button>
+            </template>
+            <template v-else>
+                <Input :label="'Write code'" :type="'text'" maxlength="5" v-model="writedCode" />
+                <button @click="GetUser" class="btn btn-primary">
+                    Code
+                </button>
+            </template>
         </form>
     </div>
 </template>
@@ -32,7 +40,11 @@ export default {
             username: '',
             file: null,
             error: '',
-            success: ''
+            code: null,
+            success: '',
+            id: null,
+            writedCode: '',
+            count: 0
         }
     },
     methods: {
@@ -52,6 +64,8 @@ export default {
             this.$store.dispatch('register', fd)
                 .then((res) => {
                     this.success = res.messsage
+                    this.code = res.code
+                    this.id = id
                 }).catch((err) => {
                     this.error = err.data?.message
                 })
@@ -64,6 +78,19 @@ export default {
             } else {
                 this.error = 'You can upload only jpeg, png'
                 return
+            }
+        },
+        async GetUser() {
+            if (parseInt(this.writedCode) !== parseInt(this.code)) {
+                this.error = 'Write right code'
+                console.log(this.writedCode);
+                return
+            }
+            try {
+                await this.$store.dispatch('updateUser', this.id)
+                this.$router.push({ name: 'profile', params: this.id })
+            } catch (error) {
+                console.log(error)
             }
         },
         closeHandler() {
