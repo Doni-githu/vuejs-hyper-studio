@@ -22,8 +22,8 @@
             </template>
             <template v-else>
                 <Input :label="'Write code'" :type="'text'" maxlength="5" v-model="writedCode" />
-                <button @click="GetUser" class="btn btn-primary">
-                    Code
+                <button @click="GetUser" class="btn btn-primary" :disabled="isLoading2">
+                    {{ isLoading2 ? 'Loading...' : 'Code' }}
                 </button>
             </template>
         </form>
@@ -44,7 +44,8 @@ export default {
             success: '',
             id: null,
             writedCode: '',
-            count: 0
+            count: 0,
+            isLoading2: false,
         }
     },
     methods: {
@@ -83,15 +84,12 @@ export default {
         async GetUser() {
             if (parseInt(this.writedCode) !== parseInt(this.code)) {
                 this.error = 'Write right code'
-                console.log(this.writedCode);
                 return
             }
-            try {
-                await this.$store.dispatch('updateUser', this.id)
-                this.$router.push({ name: 'profile', params: this.id })
-            } catch (error) {
-                console.log(error)
-            }
+            this.$store.dispatch('updateUser', this.id)
+                .then(() => {
+                    this.$router.push(`/profile/${this.id}`)
+                })
         },
         closeHandler() {
             this.error = null
