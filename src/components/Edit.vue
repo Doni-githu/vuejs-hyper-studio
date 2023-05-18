@@ -67,7 +67,7 @@ export default {
             const { files } = target
             const type = files[0].name.split('.').reverse()[0]
             if (this.type === 'img') {
-                if (type === 'jpeg' || type === 'png' || type === 'jfif') {
+                if (type === 'jpeg' || type === 'png' || type == 'jfif' || type === 'jpg') {
                     this.file = files[0]
                     return
                 } else {

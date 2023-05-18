@@ -124,8 +124,8 @@ export default {
     gap: 20px;
 }
 
-@media only screen and (max-width:769px){
-    .form{
+@media only screen and (max-width:769px) {
+    .form {
         width: 100%;
     }
 }
