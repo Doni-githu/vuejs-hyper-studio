@@ -38,8 +38,9 @@
                         </button>
                     </template>
                     <template v-else>
-                        <button class="btn active" @click="toLight">
-                            <img src="/sun.png" style="width: 12px; height: 16px; object-fit: contain;">
+                        <button class="btn active" @click="toLight" style="padding: 0;">
+                            <img src="/sun.png"
+                                style="border-radius: var(--bs-btn-border-radius); width: 38px; height: 38px; object-fit: contain; object-position: center;">
                         </button>
                     </template>
                     <template v-if="!isLoggedIn">
