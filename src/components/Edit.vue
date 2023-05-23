@@ -25,7 +25,7 @@
             </div>
             <template v-else>
                 <p class="fs-3" style="cursor: pointer; user-select: none;" @click="activeType = true">I would like change
-                    my type</p>
+                    your post type</p>
             </template>
             <template v-if="activeType">
                 <div class="file">
