@@ -456,6 +456,8 @@ p {
 
 .right_channel {
     display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 .right_channel .like {

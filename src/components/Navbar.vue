@@ -39,7 +39,7 @@
                     </template>
                     <template v-else>
                         <button class="btn active" @click="toLight">
-                            <i class="fa-solid fa-sun"></i>
+                            <i class="fa-regular fa-sun-bright"></i>
                         </button>
                     </template>
                     <template v-if="!isLoggedIn">
