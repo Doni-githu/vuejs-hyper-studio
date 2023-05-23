@@ -49,7 +49,7 @@
                         <form class="form-comment" @submit.prevent>
                             <Input :label="'Comment...'" @keyup="onComment" v-model="comment" :type="'text'" />
                         </form>
-                        <template v-if="isLoading">
+                        <template v-if="items">
                             <div class="out-put">
                                 <div class="out-put-card" v-for="item in items" :key="item._id">
                                     <div class="top">
@@ -173,7 +173,7 @@ export default {
             activeBody: true,
             activeComment: false,
             comment: '',
-            items: [],
+            items: null,
             answer: '',
             talking: ''
         }
