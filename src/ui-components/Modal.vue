@@ -42,6 +42,7 @@ export default {
     right: 50%;
     width: 320px;
     top: 40%;
+    border-radius: 12px;
     background-color: #0d0d0d;
     left: 40%;
     padding: 15px;
