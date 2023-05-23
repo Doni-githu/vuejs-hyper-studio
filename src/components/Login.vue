@@ -70,7 +70,6 @@ export default {
         async GetUser() {
             if (parseInt(this.writedCode) !== parseInt(this.code)) {
                 this.error = 'Write right code'
-                console.log(this.writedCode);
                 return
             }
             this.$store.dispatch('updateUser', this.id)

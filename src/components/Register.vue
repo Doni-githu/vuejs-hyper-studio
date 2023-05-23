@@ -42,9 +42,8 @@ export default {
             error: '',
             code: null,
             success: '',
-            id: null,
+            id: '',
             writedCode: '',
-            count: 0,
             isLoading2: false,
         }
     },
@@ -66,7 +65,7 @@ export default {
                 .then((res) => {
                     this.success = res.messsage
                     this.code = res.code
-                    this.id = id
+                    this.id = res.id
                 }).catch((err) => {
                     this.error = err.data?.message
                 })
