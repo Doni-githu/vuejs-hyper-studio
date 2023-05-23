@@ -39,7 +39,7 @@
                     </template>
                     <template v-else>
                         <button class="btn active" @click="toLight">
-                            <img src="/sun.png" alt="">
+                            <img src="/sun.png" style="width: 12px; height: 16px; object-fit: contain;">
                         </button>
                     </template>
                     <template v-if="!isLoggedIn">
