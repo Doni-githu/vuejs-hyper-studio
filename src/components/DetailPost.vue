@@ -25,6 +25,7 @@
                         </div>
                     </div>
                     <div class="right_channel">
+                        <p>{{ post.likes }}</p>
                         <div class="like">
                             <template v-if="active">
                                 <i @click="onUnLike(post._id)" class="fa-solid fa-heart" style="color: #ea1a1a;"></i>
@@ -173,7 +174,7 @@ export default {
             activeBody: true,
             activeComment: false,
             comment: '',
-            items: null,
+            items: [],
             answer: '',
             talking: ''
         }
