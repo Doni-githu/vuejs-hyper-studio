@@ -6,7 +6,7 @@
                     <div class="top">
                         <div class="user" @click="goToProfile(post.user._id)">
                             <div class="avatar">
-                                <img :src="post.user.src">
+                                <img :src="post.user.src ? post.user.src : ''">
                             </div>
                             <div class="main">
                                 <p>{{ post.user.username }}</p>
@@ -14,7 +14,7 @@
                         </div>
                     </div>
                     <template v-if="post.type === 'img'">
-                        <img :src="post.src" class="post_img">
+                        <img :src="post.src ? post.src : ''" alt="post image" class="post_img">
                     </template>
                     <template v-else>
                         <video controls>

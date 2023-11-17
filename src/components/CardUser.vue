@@ -1,8 +1,7 @@
 <template>
     <div class="card_users" @click="clickToChat(user._id)">
-        <div class="src" :style="`background-image: url(${user.src})`"
+        <div class="src" :style="`background-image: url(${user.src ? user.src : ''})`"
             style="background-position: center; background-size: cover; border-radius: 5px;">
-
         </div>
         <div class="card_users_name">{{ user.username }}</div>
     </div>
