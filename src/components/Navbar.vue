@@ -52,7 +52,7 @@
                     <template v-else>
                         <div class="btn-group">
                             <div>
-                                <img class="img" :src="user.src" @click="change" />
+                                <img class="img" :src="user.src ? user.src : ''" @click="change" />
                             </div>
                             <ul v-if="active" class="drop-menu">
                                 <li>
